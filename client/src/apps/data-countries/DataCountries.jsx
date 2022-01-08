@@ -26,6 +26,14 @@ const DataCountries = () => {
     setFilteredCountries(filteredCountries);
   }, [filter, countries]);
 
+  const handleChangeFilter = (e) => {
+    setFilter(e.target.value);
+  };
+
+  const handleShowCountry = (index) => {
+    setFilteredCountries([filteredCountries[index]]);
+  };
+
   return (
     <div>
       <div className="">
@@ -34,11 +42,15 @@ const DataCountries = () => {
           type="text"
           name="filter"
           value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          onChange={handleChangeFilter}
         />
       </div>
 
-      <Countries countries={filteredCountries} limit={10} />
+      <Countries
+        countries={filteredCountries}
+        limit={10}
+        showCountry={handleShowCountry}
+      />
     </div>
   );
 };

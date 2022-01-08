@@ -2,7 +2,7 @@ import React from 'react';
 
 import Country from './Country';
 
-const ShowCountries = ({ limit, countries }) => {
+const Countries = ({ limit, countries, showCountry }) => {
   if (countries.length === 0) return <p>Not matches founded</p>;
 
   if (countries.length === 1) return <Country country={countries[0]} />;
@@ -10,8 +10,11 @@ const ShowCountries = ({ limit, countries }) => {
   if (countries.length <= limit)
     return (
       <ul>
-        {countries.map((country) => (
-          <li key={country.name.official}>{country.name.common}</li>
+        {countries.map((country, i) => (
+          <li key={country.name.official}>
+            {country.name.common}{' '}
+            <button onClick={(e) => showCountry(i)}>Show</button>
+          </li>
         ))}
       </ul>
     );
@@ -19,4 +22,4 @@ const ShowCountries = ({ limit, countries }) => {
   return <p>Too many matches, specify another filter</p>;
 };
 
-export default ShowCountries;
+export default Countries;

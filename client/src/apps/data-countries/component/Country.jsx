@@ -2,7 +2,6 @@ import React from 'react';
 
 const Country = ({ country }) => {
   const languages = Object.entries(country.languages);
-  console.log(languages);
 
   return (
     <div>
