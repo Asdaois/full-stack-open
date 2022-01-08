@@ -8,6 +8,10 @@ const Country = ({ country }) => {
   const {
     name: { common: nameCommon },
     capital: [capital],
+    capitalInfo: {
+      latlng: [lat, lon],
+    },
+    flags: {png: flagPng},
     population,
   } = country;
 
@@ -19,14 +23,13 @@ const Country = ({ country }) => {
     const getWeather = async () => {
       const URI = process.env.REACT_APP_OPENWEATHER_API;
       const KEY = process.env.REACT_APP_OPENWEATHER_KEY_API;
-      const lat = country.capitalInfo.latlng[0];
-      const lon = country.capitalInfo.latlng[1];
       const response = await axiosAPI.get(
         `${URI}?lat=${lat}&lon=${lon}&units=metric&appid=${KEY}`
       );
       setWeather(response.data);
     };
     getWeather();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -41,10 +44,9 @@ const Country = ({ country }) => {
         ))}
       </ul>
 
-      <img src={country.flags.png} alt="" />
+      <img src={flagPng} alt="" />
 
-      <Weather weather={weather} capital={capital}/>
-      
+      <Weather weather={weather} capital={capital} />
     </div>
   );
 };
