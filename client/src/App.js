@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Notes from './notes';
-import WebDevCurriculum from './web-dev-curriculum';
+import Notes from 'apps/notes';
+import WebDevCurriculum from 'apps/web-dev-curriculum';
 
 const App = () => {
   return (
