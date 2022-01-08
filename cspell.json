@@ -1,0 +1,9 @@
+{
+  "version": "0.2",
+  "ignorePaths": ["server-dummy/db.json"],
+  "dictionaryDefinitions": [],
+  "dictionaries": [],
+  "words": ["latlng"],
+  "ignoreWords": [],
+  "import": []
+}

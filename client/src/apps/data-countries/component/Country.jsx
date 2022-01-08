@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import axiosAPI from 'api/axiosAPI';
 
+import Weather from './Weather';
+
 const Country = ({ country }) => {
   const {
     name: { common: nameCommon },
@@ -38,25 +40,11 @@ const Country = ({ country }) => {
           <li key={language[0]}>{language[1]}</li>
         ))}
       </ul>
-      {weather !== null && (
-        <div className="">
-          <img src={country.flags.png} alt="" />
-          <h3>Weather in {capital}</h3>
-          <p>
-            <strong>temperature:</strong> {weather.main.temp} Celcius
-          </p>
 
-          <p>{weather.weather[0].description}</p>
-          <img
-            src={`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`}
-            alt={`${weather.weather[0].main}`}
-          />
-          <p>
-            <strong>wind:</strong> {weather.wind.speed} m/s direction {weather.wind.deg} degrees
-            
-          </p>
-        </div>
-      )}
+      <img src={country.flags.png} alt="" />
+
+      <Weather weather={weather} capital={capital}/>
+      
     </div>
   );
 };
