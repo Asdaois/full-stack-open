@@ -1,13 +1,12 @@
 import React from 'react';
 
-import Notes from 'apps/notes';
-import WebDevCurriculum from 'apps/web-dev-curriculum';
+import ThePhonebook from 'apps/the-phonebook';
 
 const App = () => {
+
   return (
     <div className="">
-      <WebDevCurriculum />
-      <Notes />
+    <ThePhonebook/>     
     </div>
   );
 };
