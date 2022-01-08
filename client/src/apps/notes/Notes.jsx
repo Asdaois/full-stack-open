@@ -1,33 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import axiosAPI from 'api/axiosAPI';
 
 import Note from './components/Note';
 
-const defaultNotes = [
-  {
-    id: 'dohg4ue6i4',
-    content: 'HTML is easy',
-    date: '2019-05-30T17:30:31.098Z',
-    important: true,
-  },
-  {
-    id: '4fab4py84',
-    content: 'Browser can execute only JavaScript',
-    date: '2019-05-30T18:39:34.091Z',
-    important: false,
-  },
-  {
-    id: 'a4uoe65f4xe',
-    content: 'GET and POST are the most important methods of HTTP protocol',
-    date: '2019-05-30T19:20:14.298Z',
-    important: true,
-  },
-];
-
 const Notes = () => {
-  const [notes, setNotes] = useState(defaultNotes);
+  const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('');
   const [showAll, setShowAll] = useState(true);
 
+  useEffect(() => {
+    const getNotes = async () => {
+      const response = await axiosAPI.get('/notes')
+      setNotes(response.data);
+    }
+    getNotes();
+  }, [])
   /**
    *
    * @param {React.FormEvent<HTMLFormElement>} e

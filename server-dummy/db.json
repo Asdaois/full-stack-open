@@ -1,0 +1,224 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "content": "HTML is easy",
+      "date": "2019-05-30T17:30:31.098Z",
+      "important": true
+    },
+    {
+      "id": 2,
+      "content": "Browser can execute only JavaScript",
+      "date": "2019-05-30T18:39:34.091Z",
+      "important": false
+    },
+    {
+      "id": 3,
+      "content": "GET and POST are the most important methods of HTTP protocol",
+      "date": "2019-05-30T19:20:14.298Z",
+      "important": true
+    }
+  ],
+  "persons": [
+    {
+      "id": "c95de17e-44d2-46e4-bf10-7934a23d292a",
+      "name": "Josiah Dumbleton",
+      "number": "302-484-2378"
+    },
+    {
+      "id": "66892238-10f5-4005-817a-b60ebaf2d86b",
+      "name": "Sherilyn Westwick",
+      "number": "239-734-4784"
+    },
+    {
+      "id": "8fbb426a-ec58-4e1f-8b47-3868b25c1713",
+      "name": "Melonie Blesdill",
+      "number": "978-679-9685"
+    },
+    {
+      "id": "b2a95f39-19ba-467e-afb0-8975ba448135",
+      "name": "Benji Kondratenko",
+      "number": "630-459-0675"
+    },
+    {
+      "id": "6833e98c-f4ee-49ee-a627-e8b0e3268b4d",
+      "name": "Davita Stithe",
+      "number": "548-860-8811"
+    },
+    {
+      "id": "19887a5f-bd49-4ce6-bc7c-c4d8fbe740dc",
+      "name": "Eduino Richardson",
+      "number": "508-629-8947"
+    },
+    {
+      "id": "c9ff11b6-bd63-4706-b016-9da4b76d8bfa",
+      "name": "Teodora Liven",
+      "number": "107-750-3297"
+    },
+    {
+      "id": "082913f4-f77f-4e4f-8b62-0882cd879640",
+      "name": "Shayne Born",
+      "number": "371-622-7419"
+    },
+    {
+      "id": "152b7286-9ab9-4b0a-887b-5be03ac6504e",
+      "name": "Nikoletta Danat",
+      "number": "596-743-6978"
+    },
+    {
+      "id": "124fd27a-a2df-400d-b74a-a10b45c1bc70",
+      "name": "Denys Tutchener",
+      "number": "426-678-5929"
+    },
+    {
+      "id": "112382c9-1009-4485-8718-912c2e78b498",
+      "name": "Winne Osgerby",
+      "number": "499-248-3433"
+    },
+    {
+      "id": "773ee63a-8fe2-418c-84b9-c9e13b0e9476",
+      "name": "Elroy Pendlebery",
+      "number": "896-198-8373"
+    },
+    {
+      "id": "6176c720-d947-473a-87b2-07f259e39f61",
+      "name": "Niles Blackbourn",
+      "number": "750-156-4612"
+    },
+    {
+      "id": "787a497c-b1ef-495f-91c2-d00fcfb47422",
+      "name": "Wally Smitten",
+      "number": "613-258-8297"
+    },
+    {
+      "id": "8eac4904-aaf4-405c-a1f1-c3e058fa406f",
+      "name": "Dollie Djekovic",
+      "number": "768-260-6782"
+    },
+    {
+      "id": "695b1849-353c-44b9-ace4-5d6f25b483e5",
+      "name": "Dorolisa Rigmand",
+      "number": "434-759-2659"
+    },
+    {
+      "id": "85757193-8b95-4898-81de-6aae5d3cb0e3",
+      "name": "Gaye Maciak",
+      "number": "779-126-6914"
+    },
+    {
+      "id": "18327a80-082a-4988-a913-2cbdeb2c5cf4",
+      "name": "Jeramey Pieter",
+      "number": "821-300-1916"
+    },
+    {
+      "id": "f27fb81c-4085-4318-a532-7605e185496e",
+      "name": "Simeon Coysh",
+      "number": "548-881-8108"
+    },
+    {
+      "id": "3e723b93-8b9d-474d-8fc8-73336ffcff4a",
+      "name": "Jehanna Ledrun",
+      "number": "711-749-3857"
+    },
+    {
+      "id": "083e7d39-5b78-4d33-bb8d-e12dcdcc175a",
+      "name": "Siana Baugh",
+      "number": "787-374-1191"
+    },
+    {
+      "id": "b7c19ff3-e165-4526-be79-bd8a2239af96",
+      "name": "Oneida Skepper",
+      "number": "338-592-9941"
+    },
+    {
+      "id": "bfa88636-eb8a-4197-abcc-e45b050dbc4b",
+      "name": "Federico Ibbs",
+      "number": "875-795-8317"
+    },
+    {
+      "id": "121d289d-dfdd-4465-8704-945ae4d0ec5f",
+      "name": "Case Father",
+      "number": "897-130-3838"
+    },
+    {
+      "id": "0e33224f-20e3-4ba6-9587-3c3d1bdb7532",
+      "name": "Vannie Paike",
+      "number": "744-208-2271"
+    },
+    {
+      "id": "028c0a7a-b889-4d81-a7f1-21bea06ed8ba",
+      "name": "Tim Raggles",
+      "number": "770-121-7416"
+    },
+    {
+      "id": "7b19e066-b985-4866-bb18-66d4c23f87bf",
+      "name": "Ebony Harteley",
+      "number": "835-238-0406"
+    },
+    {
+      "id": "873cbbf9-9ab8-4878-9ab0-2044480fbc5a",
+      "name": "Jessie Ashbe",
+      "number": "798-311-6722"
+    },
+    {
+      "id": "2ae75155-479c-4e02-916f-06030b1e8cde",
+      "name": "Derwin Townrow",
+      "number": "769-776-4597"
+    },
+    {
+      "id": "c6a93548-493a-4e64-81f2-af218b174c74",
+      "name": "Thadeus Denacamp",
+      "number": "211-577-6014"
+    },
+    {
+      "id": "488b7947-f1f8-42c3-a7a3-a23a256f98f7",
+      "name": "Petronella Zellick",
+      "number": "250-132-2761"
+    },
+    {
+      "id": "242bdec7-d630-47fb-9335-32add804c775",
+      "name": "Chery Callway",
+      "number": "458-169-5996"
+    },
+    {
+      "id": "702b42ec-2934-44e2-82b7-b8a2767d8b1d",
+      "name": "Theresina Hurler",
+      "number": "308-945-1417"
+    },
+    {
+      "id": "49bab775-1ad3-490a-a51a-d84758d2361e",
+      "name": "Ermanno Cammell",
+      "number": "192-954-0875"
+    },
+    {
+      "id": "8a6d9489-c24e-4151-87db-c88669bf8d95",
+      "name": "Darill Hacun",
+      "number": "138-648-2426"
+    },
+    {
+      "id": "756f9b62-aad7-4d3f-b099-940c37dcd2de",
+      "name": "Cathlene Duckhouse",
+      "number": "631-267-3356"
+    },
+    {
+      "id": "720898a2-121b-4681-8368-5e4896039951",
+      "name": "Findlay Folley",
+      "number": "764-210-8374"
+    },
+    {
+      "id": "9b56b509-3030-4252-a54a-4f32a45f1d0c",
+      "name": "Sarina Annwyl",
+      "number": "941-510-0046"
+    },
+    {
+      "id": "0987405c-c923-45f3-a95d-c59b1810584a",
+      "name": "Yancey Sample",
+      "number": "773-518-4284"
+    },
+    {
+      "id": "6d31a7c5-62e4-443c-9898-0d4c3aa3926c",
+      "name": "Dannel How to preserve",
+      "number": "110-753-3922"
+    }
+  ]
+}

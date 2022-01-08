@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
+import axiosAPI from 'api/axiosAPI';
+
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 import SearchFilter from './components/SearchFilter';
-import data from './MOCK_DATA.json';
 
 const PERSON_EMPTY = { id: '', name: '', number: '' };
 
@@ -16,7 +17,11 @@ const ThePhonebook = () => {
   const [personsFiltered, setPersonsFiltered] = useState([]);
 
   useEffect(() => {
-    setPersons(data);
+    const getPersons = async () => {
+      const response = await axiosAPI.get('/persons');
+      setPersons(response.data);
+    };
+    getPersons();
   }, []);
   /**
    * @param {React.FormEvent<HTMLFormElement>} e */
@@ -54,12 +59,6 @@ const ThePhonebook = () => {
 
     setPersonsFiltered([
       ...persons.filter((person) => {
-        // TODO: For texting
-        // console.log({
-        //   regex,
-        //   testing: person.name,
-        //   result: regex.test(person.name),
-        // });
         return regex.test(person.name);
       }),
     ]);
