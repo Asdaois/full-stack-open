@@ -1,20 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+import axiosAPI from 'api/axiosAPI';
 
 const Country = ({ country }) => {
+  const {
+    name: { common: nameCommon },
+    capital: [capital],
+    population,
+  } = country;
+
   const languages = Object.entries(country.languages);
+
+  const [weather, setWeather] = useState(null);
+
+  useEffect(() => {
+    const getWeather = async () => {
+      const URI = process.env.REACT_APP_OPENWEATHER_API;
+      const KEY = process.env.REACT_APP_OPENWEATHER_KEY_API;
+      const lat = country.capitalInfo.latlng[0];
+      const lon = country.capitalInfo.latlng[1];
+      const response = await axiosAPI.get(
+        `${URI}?lat=${lat}&lon=${lon}&units=metric&appid=${KEY}`
+      );
+      setWeather(response.data);
+    };
+    getWeather();
+  }, []);
 
   return (
     <div>
-      <h2>{country.name.common}</h2>
-      <p>capital {country.capital[0]}</p>
-      <p>population {country.population}</p>
+      <h2>{nameCommon}</h2>
+      <p>capital {capital}</p>
+      <p>population {population}</p>
       <h3>languages</h3>
       <ul>
         {languages.map((language) => (
           <li key={language[0]}>{language[1]}</li>
         ))}
       </ul>
-      <img src={country.flags.png} alt="" />
+      {weather !== null && (
+        <div className="">
+          <img src={country.flags.png} alt="" />
+          <h3>Weather in {capital}</h3>
+          <p>
+            <strong>temperature:</strong> {weather.main.temp} Celcius
+          </p>
+
+          <p>{weather.weather[0].description}</p>
+          <img
+            src={`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`}
+            alt={`${weather.weather[0].main}`}
+          />
+          <p>
+            <strong>wind:</strong> {weather.wind.speed} m/s direction {weather.wind.deg} degrees
+            
+          </p>
+        </div>
+      )}
     </div>
   );
 };
