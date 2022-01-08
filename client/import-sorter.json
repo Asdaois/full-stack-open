@@ -1,0 +1,13 @@
+  {
+    "autoFormat": "onSave",
+    "keepUnused": [
+      "true"
+    ],
+    "wrappingStyle": {
+      "maxBindingNamesPerLine": 4,
+      "maxDefaultAndBindingNamesPerLine": 4,
+      "maxExportNamesPerLine": 0,
+      "maxNamesPerWrappedLine": 1,
+      "ignoreComments": false
+    }
+  }
