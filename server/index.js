@@ -1,14 +1,23 @@
 import cors from 'cors';
 import express from 'express';
+import pkg from 'express/lib/application.js';
 import morgan from 'morgan';
 
+const {path} = pkg;
 const app = express();
 
-morgan.token('body', (req) => JSON.stringify(req.body))
-morgan.token('params', (req) => JSON.stringify(req.params))
-app.use(cors())
-app.use(morgan(':method :url :status :res[body] :response-time ms \nbody=:body\nparams=:params\n'))
+app.use(express.static('../client/build'));
+
+app.use(cors());
 app.use(express.json());
+
+morgan.token('body', (req) => JSON.stringify(req.body));
+morgan.token('params', (req) => JSON.stringify(req.params));
+app.use(
+  morgan(
+    ':method :url :status :res[body] :response-time ms \nbody=:body\nparams=:params\n'
+  )
+);
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>');
