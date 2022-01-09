@@ -1,0 +1,27 @@
+{
+  "name": "full-stack-open",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently npm:dev:* -c \"blue,green\"",
+    "dev:client": "cd client && npm run start",
+    "dev:server": "cd server && npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Asdaois/full-stack-open.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Asdaois/full-stack-open/issues"
+  },
+  "homepage": "https://github.com/Asdaois/full-stack-open#readme",
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "npm-run-all": "^4.1.5"
+  }
+}

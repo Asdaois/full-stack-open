@@ -1,0 +1,23 @@
+@URI = http://localhost:3001/api/notes
+@TYPE_JSON = Content-Type: application/json
+
+### Get all notes
+GET {{URI}} HTTP/1.1
+{{TYPE_JSON}}
+
+### Get one
+GET {{URI}}/2 HTTP/1.1
+{{TYPE_JSON}}
+
+### Delete one
+DELETE {{URI}}/2 HTTP/1.1
+{{TYPE_JSON}}
+
+### Create one
+POST {{URI}} HTTP/1.1
+{{TYPE_JSON}}
+
+{
+  # "content": "hola server",
+  "important": "false"
+}
