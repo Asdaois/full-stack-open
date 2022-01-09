@@ -10,7 +10,7 @@
     "dev:server": "cd server && npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf server/build && cd ./client && npm run build ",
-    "deploy": "git checkout release && npm run build:ui && git add . && git commit -m uibuild ",
+    "deploy": "npm run build:ui && git add . && git commit -m deploy && git checkout release ",
     "logs:prod": "heroku logs --tail"
   },
   "repository": {
