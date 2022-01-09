@@ -13,7 +13,7 @@ const Countries = ({ limit, countries, showCountry }) => {
         {countries.map((country, i) => (
           <li key={country.name.official}>
             {country.name.common}{' '}
-            <button onClick={(e) => showCountry(i)}>Show</button>
+            <button className='btn' onClick={(e) => showCountry(i)}>Show</button>
           </li>
         ))}
       </ul>

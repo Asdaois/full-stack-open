@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import notesAPI from './api/notesAPI';
+import Footer from './components/Footer';
 import Note from './components/Note';
 
 const Notes = () => {
@@ -54,7 +55,6 @@ const Notes = () => {
         notes.map((note) => (note.id !== noteModified.id ? note : noteModified))
       );
     } catch (error) {
-      alert(error)
     }
   };
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
@@ -63,7 +63,7 @@ const Notes = () => {
     <div>
       <h1>Notes</h1>
       <div className="">
-        <button onClick={() => setShowAll(!showAll)}>
+        <button className={`btn ${showAll ? 'btn-purple' : 'btn-gray'}`} onClick={() => setShowAll(!showAll)}>
           Show {showAll ? 'important' : 'all'}
         </button>
       </div>
@@ -74,7 +74,7 @@ const Notes = () => {
           value={newNote}
           onChange={handleNoteChange}
         />
-        <input type="submit" value="Save" />
+        <button type="submit" className='btn btn-green'>Save</button>
       </form>
       <ul>
         {notesToShow.map((note, i) => (
@@ -85,6 +85,8 @@ const Notes = () => {
           />
         ))}
       </ul>
+
+      <Footer />
     </div>
   );
 };
