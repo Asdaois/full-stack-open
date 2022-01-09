@@ -9,6 +9,7 @@
     "**/node_modules": true
   },
   "conventionalCommits.scopes": [
-    "axios"
+    "axios",
+    "notesApi"
   ]
 }

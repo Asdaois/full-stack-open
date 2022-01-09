@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import axiosAPI from 'api/axiosAPI';
-
+import notesAPI from './api/notesAPI';
 import Note from './components/Note';
 
 const Notes = () => {
@@ -11,11 +10,12 @@ const Notes = () => {
 
   useEffect(() => {
     const getNotes = async () => {
-      const response = await axiosAPI.get('/notes')
-      setNotes(response.data);
-    }
+      const notes = await notesAPI.getAll('/notes');
+      setNotes(notes);
+    };
     getNotes();
-  }, [])
+  }, []);
+
   /**
    *
    * @param {React.FormEvent<HTMLFormElement>} e
@@ -24,14 +24,17 @@ const Notes = () => {
     e.preventDefault();
 
     const noteObject = {
-      id: Date.now().toString(),
       content: newNote,
       date: new Date().toISOString(),
       important: Math.random() > 0.5,
     };
 
-    setNotes(notes.concat(noteObject));
-    setNewNote('');
+    (async () => {
+      const noteCreated = await notesAPI.create(noteObject);
+
+      setNotes(notes.concat(noteCreated.data));
+      setNewNote('');
+    })();
   };
 
   /**
@@ -42,6 +45,19 @@ const Notes = () => {
     setNewNote(e.currentTarget.value);
   };
 
+  const toggleImportanceOf = async (location) => {
+    const note = notes[location];
+    const changedNote = { ...note, important: !note.important };
+
+    try {
+      const noteModified = await notesAPI.update(changedNote.id, changedNote);
+      setNotes(
+        notes.map((note) => (note.id !== noteModified.id ? note : noteModified))
+      );
+    } catch (error) {
+      alert(error)
+    }
+  };
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
 
   return (
@@ -62,8 +78,12 @@ const Notes = () => {
         <input type="submit" value="Save" />
       </form>
       <ul>
-        {notesToShow.map((note) => (
-          <Note key={note.id} note={note} />
+        {notesToShow.map((note, i) => (
+          <Note
+            key={note.id}
+            note={note}
+            toggleImportance={() => toggleImportanceOf(i)}
+          />
         ))}
       </ul>
     </div>
