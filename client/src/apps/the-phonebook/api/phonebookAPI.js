@@ -1,6 +1,6 @@
 import axiosAPI from 'api/axiosAPI';
 
-const baseURL = 'persons';
+const baseURL = 'phonebook/persons';
 
 const getALl = async () => {
   const response = await axiosAPI.get(baseURL);
