@@ -6,7 +6,7 @@ import morgan from 'morgan';
 const {path} = pkg;
 const app = express();
 
-app.use(express.static('../client/build'));
+app.use(express.static('build'));
 
 app.use(cors());
 app.use(express.json());
