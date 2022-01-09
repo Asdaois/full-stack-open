@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf server/build && cd ./client && npm run build ",
     "deploy": "git push origin release",
-    "deploy:full": "npm run build:ui && git checkout release && git add . && git commit -m uibuild && git push && npm run deploy",    
+    "deploy:full": "git checkout release && npm run build:ui  && git add . && git commit -m uibuild && git push && npm run deploy",    
     "logs:prod": "heroku logs --tail"
   },
   "repository": {
