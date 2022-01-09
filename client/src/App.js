@@ -1,13 +1,11 @@
 import React from 'react';
 
-import DataCountries from 'apps/data-countries';
-import Notes from 'apps/notes';
+import ThePhonebook from 'apps/the-phonebook';
 
 const App = () => {
   return (
     <div className="">
-      <Notes />
-      <DataCountries />
+      <ThePhonebook/>
     </div>
   );
 };

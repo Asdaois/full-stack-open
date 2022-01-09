@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import axiosAPI from 'api/axiosAPI';
-
+import phonebookAPI from './api/phonebookAPI';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 import SearchFilter from './components/SearchFilter';
@@ -18,39 +17,11 @@ const ThePhonebook = () => {
 
   useEffect(() => {
     const getPersons = async () => {
-      const response = await axiosAPI.get('/persons');
-      setPersons(response.data);
+      const persons = await phonebookAPI.getALl();
+      setPersons(persons);
     };
     getPersons();
   }, []);
-  /**
-   * @param {React.FormEvent<HTMLFormElement>} e */
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (persons.some((person) => person.name === newPerson.name)) {
-      alert(`${newPerson.name} is already added to phonebook`);
-      return;
-    }
-
-    const personObject = {
-      ...newPerson,
-      id: new Date().toString(),
-    };
-
-    setPersons([...persons, personObject]);
-    setNewPerson({ ...PERSON_EMPTY });
-  };
-
-  /**
-   * @param {React.ChangeEvent<HTMLInputElement>} e
-   */
-  const handleChange = (e) => {
-    setNewPerson({
-      ...newPerson,
-      [e.currentTarget.name]: e.currentTarget.value,
-    });
-  };
 
   useEffect(() => {
     if (filterShown === '') setPersonsFiltered(persons);
@@ -65,10 +36,79 @@ const ThePhonebook = () => {
     return () => {};
   }, [filterShown, persons]);
 
+  /**
+   * @param {React.FormEvent<HTMLFormElement>} e */
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (persons.some((person) => person.name.toLowerCase() === newPerson.name.toLowerCase())) {
+      updatePerson({...newPerson});
+      return;
+    }
+
+    const personObject = {
+      ...newPerson,
+    };
+
+    (async () => {
+      try {
+        const personCreated = await phonebookAPI.create(personObject);
+        setPersons([...persons, personCreated]);
+        setNewPerson({ ...PERSON_EMPTY });
+      } catch (error) {}
+    })();
+  };
+
+  /**
+   * @param {React.ChangeEvent<HTMLInputElement>} e
+   */
+  const handleChange = (e) => {
+    setNewPerson({
+      ...newPerson,
+      [e.currentTarget.name]: e.currentTarget.value,
+    });
+  };
+
+  const deletePerson = async (personToRemove) => {
+    const confirmed = window.confirm(`Delete ${personToRemove.name} ?`);
+
+    if (confirmed) {
+      try {
+        const response = await phonebookAPI.deleteOne(personToRemove.id);
+
+        setPersons(persons.filter((person) => person.id !== personToRemove.id));
+      } catch (error) {
+        alert(error);
+      }
+    }
+  };
+
+  const updatePerson = async (person) => {
+    const confirmed = window.confirm(
+      `${person.name} is already adde to phonebook, replace the old number with a new one?`
+    );
+
+    if (confirmed) {
+      try {
+        const location = persons.findIndex(p => p.name.toLowerCase() === person.name.toLowerCase())
+        if (location === -1) throw Error('Person not founded');
+          
+        const newPersonData = {...persons[location], number: newPerson.number}
+        
+        const personChanged = await phonebookAPI.update(newPersonData);
+
+        setPersons(
+          persons.map((person) =>
+            personChanged.id !== person.id ? person : personChanged 
+          )
+        );
+      } catch (error) {}
+    }
+  };
+
   return (
     <div>
       <h1>The Phonebook</h1>
-
       <SearchFilter
         value={filterShown}
         onChange={(e) => setFilterShown(e.target.value)}
@@ -81,7 +121,7 @@ const ThePhonebook = () => {
       />
 
       <h2>Numbers</h2>
-      <Persons persons={personsFiltered} />
+      <Persons persons={personsFiltered} handleDelete={deletePerson} />
     </div>
   );
 };

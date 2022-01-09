@@ -31,8 +31,7 @@ const Notes = () => {
 
     (async () => {
       const noteCreated = await notesAPI.create(noteObject);
-
-      setNotes(notes.concat(noteCreated.data));
+      setNotes(notes.concat(noteCreated));
       setNewNote('');
     })();
   };
