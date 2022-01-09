@@ -1,13 +1,13 @@
+import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
 
 const app = express();
-// app.use((req, res, next) => {
-//   next();
-// })
 
 morgan.token('body', (req) => JSON.stringify(req.body))
-app.use(morgan(':method :url :status :body :res[body] :response-time ms'))
+morgan.token('params', (req) => JSON.stringify(req.params))
+app.use(cors())
+app.use(morgan(':method :url :status :res[body] :response-time ms \nbody=:body\nparams=:params\n'))
 app.use(express.json());
 
 app.get('/', (request, response) => {
@@ -138,7 +138,7 @@ app.get('/api/phonebook/info', (request, response) => {
   response.json(info);
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running in port http://localhost:${PORT}`);
 });
