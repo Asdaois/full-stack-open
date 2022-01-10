@@ -1,13 +1,16 @@
-import cors from 'cors';
-import express from 'express';
-import pkg from 'express/lib/application.js';
-import morgan from 'morgan';
+const cors = require('cors');
+const express = require('express');
+const morgan = require('morgan');
 
-const {path} = pkg;
+require('dotenv').config();
+
+const NoteModel = require('./models/NoteModel');
+const PersonModel = require('./models/PersonModel');
+const mongodb = require('./src/mongodb');
+
 const app = express();
 
 app.use(express.static('build'));
-
 app.use(cors());
 app.use(express.json());
 
@@ -19,7 +22,8 @@ app.use(
   )
 );
 
-app.get('/api/notes', (request, response) => {
+app.get('/api/notes', async (request, response) => {
+  const notes = await NoteModel.find({});
   response.json(notes);
 });
 
@@ -28,61 +32,92 @@ const generateID = (dataDB) => {
   return maxID + 1;
 };
 
-app.post('/api/notes', (request, response) => {
+app.post('/api/notes', async (request, response, next) => {
   let status = 201;
   const body = request.body;
 
-  if (!body.content) {
-    status = 400;
-    return response.status(status).json({
-      error: 'content missing',
+  try {
+    const note = new NoteModel({
+      content: body.content,
+      important: body.important || false,
     });
+
+    const noteSaved = await note.save();
+
+    response.status = 201;
+    response.json(noteSaved);
+  } catch (error) {
+    next(error);
   }
+});
+
+app.get('/api/notes/:id', async (request, response, next) => {
+  const id = request.params.id;
+  let status = 200;
+
+  try {
+    const note = await NoteModel.findById(id);
+
+    if (note) {
+      return response.json(note);
+    }
+
+    status = 404;
+    response.statusMessage = 'Note not found';
+    response.status(status).end();
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.delete('/api/notes/:id', async (request, response, next) => {
+  let status = 200;
+  const id = request.params.id;
+
+  try {
+    const result = await NoteModel.findByIdAndRemove(id);
+    console.log(result);
+
+    status = 204;
+    response.statusMessage = `Note with id:${id} deleted`;
+    response.status(status).end();
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.put('/api/notes/:id', async (request, response, next) => {
+  let status = 200;
+  const id = request.params.id;
+  const body = request.body;
 
   const note = {
-    id: generateID(notes),
     content: body.content,
-    important: body.important || false,
-    date: new Date(),
+    important: body.important,
   };
 
-  notes = notes.concat(note);
+  try {
+    const updatedNote = await NoteModel.findByIdAndUpdate(id, note, {
+      new: true,
+    });
 
-  response.status(status).json(note);
-});
+    if (updatedNote) return response.json(updatedNote);
 
-app.get('/api/notes/:id', (request, response) => {
-  let status = 200;
-
-  const id = Number(request.params.id);
-  const note = notes.find((note) => note.id === id);
-
-  if (note) {
-    response.status(status).json(note);
-  } else {
     status = 404;
-    response.status(status).end();
+    response.status(404).json({ error: 'note not founded' });
+  } catch (error) {
+    next(error);
   }
 });
 
-app.delete('/api/notes/:id', (request, response) => {
+app.get('/api/phonebook/persons', async (request, response) => {
   let status = 200;
-
-  const id = Number(request.params.id);
-  notes = notes.filter((note) => note.id !== id);
-
-  status = 204;
-  response.statusMessage = `Note with id:${id} deleted`;
-  response.status(status).end();
-});
-
-app.get('/api/phonebook/persons', (request, response) => {
-  let status = 200;
+  const persons = await PersonModel.find({});
 
   response.status(status).json(persons);
 });
 
-app.post('/api/phonebook/persons', (request, response) => {
+app.post('/api/phonebook/persons', async (request, response) => {
   let status = 200;
   const body = request.body;
 
@@ -94,100 +129,121 @@ app.post('/api/phonebook/persons', (request, response) => {
     return response.status(status).json({ error: errorMessage.join(', ') });
   }
 
-  if (
-    persons.findIndex(
-      (person) => person.name.toLowerCase() === body.name.toLowerCase()
-    ) !== -1
-  ) {
+  const personExist = await PersonModel.findOne({
+    name: body.name.toLowerCase(),
+  });
+
+  if (personExist) {
     status = 400;
     return response.status(status).json({ error: 'name must be unique' });
   }
 
-  const newPerson = {
-    id: generateID(persons),
-    name: body.name,
-    number: body.number,
+  const person = new PersonModel({
+    name: body.name.toLowerCase(),
+    number: body.number.trim(),
+  });
+
+  const personSaved = await person.save();
+
+  response.json(personSaved);
+});
+
+app.put('/api/phonebook/persons/:id', async (request, response, next) => {
+  const id = request.params.id;
+
+  const person = {
+    name: request.body.name,
+    number: request.body.number,
   };
 
-  persons = persons.concat(newPerson);
-  response.json(newPerson);
+  try {
+    const updatedPerson = await PersonModel.findByIdAndUpdate(id, person, {
+      new: true,
+    });
+
+    if (updatedPerson) {
+      return response.json(updatedPerson);
+    }
+
+    response.status = 404;
+    response.json({ error: 'person not found' });
+  } catch (error) {
+    next(error);
+  }
 });
 
-app.get('/api/phonebook/persons/:id', (request, response) => {
-  let status = 200;
-  const id = Number(request.params.id);
+app.get('/api/phonebook/persons/:id', async (request, response, next) => {
+  const id = request.params.id;
 
-  const person = persons.find((person) => person.id === id);
+  try {
+    const person = await PersonModel.findById(id);
 
-  if (person) return response.status(status).json(person);
+    if (person) return response.json(person);
 
-  status = 404;
-  response.status(status).end();
+    response.status = 404;
+    response.end();
+  } catch (error) {
+    next(error);
+  }
 });
 
-app.delete('/api/phonebook/persons/:id', (request, response) => {
+app.delete('/api/phonebook/persons/:id', async (request, response, next) => {
   let status = 204;
-  const id = Number(request.params.id);
+  const id = request.params.id;
+  try {
+    const result = await PersonModel.findByIdAndRemove(id);
+    if (result) {
+      response.statusMessage = `Person with id:${id} deleted`;
+      return response.status(status).end();
+    }
 
-  persons = persons.filter((person) => person.id !== id);
-
-  response.statusMessage = `Person with id:${id} deleted`;
-  response.status(status).end();
+    response.status = 404;
+    return response.json({ error: 'person not founded' });
+  } catch (error) {
+    next(error);
+  }
 });
 
-app.get('/api/phonebook/info', (request, response) => {
-  const info = {
-    message: `Phonebook has info for ${persons.length} people`,
-    date: new Date().toString(),
-  };
-  response.json(info);
+app.get('/api/phonebook/info', async (request, response, next) => {
+  try {
+    const count = await PersonModel.find({}).count();
+
+    const info = {
+      message: `Phonebook has info for ${count} people`,
+      date: new Date().toString(),
+    };
+    response.json(info);
+  } catch (error) {
+    next(error);
+  }
 });
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Server running in port http://localhost:${PORT}`);
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' });
+};
+
+app.use(unknownEndpoint);
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.name);
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'wrong id format' });
+  }
+
+  if (error.name === 'ValidationError') {
+    response.status = 400
+    return response.json({error: error.message})
+  }
+
+  next(error);
+};
+
+app.use(errorHandler);
+
+mongodb.once('open', () => {
+  const PORT = process.env.PORT;
+  app.listen(PORT, async () => {
+    console.log(`Server running in port http://localhost:${PORT}`);
+  });
 });
-
-let notes = [
-  {
-    id: 1,
-    content: 'HTML is easy',
-    date: '2019-05-30T17:30:31.098Z',
-    important: true,
-  },
-  {
-    id: 2,
-    content: 'Browser can execute only Javascript',
-    date: '2019-05-30T18:39:34.091Z',
-    important: false,
-  },
-  {
-    id: 3,
-    content: 'GET and POST are the most important methods of HTTP protocol',
-    date: '2019-05-30T19:20:14.298Z',
-    important: true,
-  },
-];
-
-let persons = [
-  {
-    id: 1,
-    name: 'Arto Hellas',
-    number: '040-123456',
-  },
-  {
-    id: 2,
-    name: 'Ada Lovelace',
-    number: '39-44-5323523',
-  },
-  {
-    id: 3,
-    name: 'Dan Abramov',
-    number: '12-43-234345',
-  },
-  {
-    id: 4,
-    name: 'Mary Poppendieck',
-    number: '39-23-6423122',
-  },
-];

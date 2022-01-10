@@ -6,18 +6,27 @@ GET {{URI}} HTTP/1.1
 {{TYPE_JSON}}
 
 ### Get one
-GET {{URI}}/2 HTTP/1.1
+GET {{URI}}/5c41c90e84d891c15dfa3431 HTTP/1.1
 {{TYPE_JSON}}
 
 ### Delete one
-DELETE {{URI}}/2 HTTP/1.1
+DELETE {{URI}}/61db7749357b27744758c4ce HTTP/1.1
 {{TYPE_JSON}}
+
+### Update one
+PUT {{URI}}/61db74fa0c4808ba97f7760a HTTP/1.1
+{{TYPE_JSON}}
+
+{
+  "content": "Godot is the best Game engine",
+  "important": "true"
+}
 
 ### Create one
 POST {{URI}} HTTP/1.1
 {{TYPE_JSON}}
 
 {
-  # "content": "hola server",
+  "content": "hola server",
   "important": "false"
 }

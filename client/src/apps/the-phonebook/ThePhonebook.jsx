@@ -102,6 +102,8 @@ const ThePhonebook = () => {
             personChanged.id !== person.id ? person : personChanged 
           )
         );
+
+        setNewPerson({...PERSON_EMPTY})
       } catch (error) {}
     }
   };
