@@ -1,9 +1,15 @@
 {
   "version": "0.2",
-  "ignorePaths": ["server-dummy/db.json"],
+  "ignorePaths": [
+    "server-dummy/db.json"
+  ],
   "dictionaryDefinitions": [],
   "dictionaries": [],
-  "words": ["latlng"],
+  "words": [
+    "Arto",
+    "latlng",
+    "linebreak"
+  ],
   "ignoreWords": [],
   "import": []
 }

@@ -27,13 +27,7 @@ app.get('/api/notes', async (request, response) => {
   response.json(notes);
 });
 
-const generateID = (dataDB) => {
-  const maxID = dataDB.length > 0 ? Math.max(...dataDB.map((n) => n.id)) : 0;
-  return maxID + 1;
-};
-
 app.post('/api/notes', async (request, response, next) => {
-  let status = 201;
   const body = request.body;
 
   try {
@@ -87,7 +81,6 @@ app.delete('/api/notes/:id', async (request, response, next) => {
 });
 
 app.put('/api/notes/:id', async (request, response, next) => {
-  let status = 200;
   const id = request.params.id;
   const body = request.body;
 
@@ -103,8 +96,8 @@ app.put('/api/notes/:id', async (request, response, next) => {
 
     if (updatedNote) return response.json(updatedNote);
 
-    status = 404;
-    response.status(404).json({ error: 'note not founded' });
+    response.status = 404;
+    response.json({ error: 'note not founded' });
   } catch (error) {
     next(error);
   }
@@ -117,7 +110,7 @@ app.get('/api/phonebook/persons', async (request, response) => {
   response.status(status).json(persons);
 });
 
-app.post('/api/phonebook/persons', async (request, response) => {
+app.post('/api/phonebook/persons', async (request, response, next) => {
   let status = 200;
   const body = request.body;
 
@@ -129,24 +122,27 @@ app.post('/api/phonebook/persons', async (request, response) => {
     return response.status(status).json({ error: errorMessage.join(', ') });
   }
 
-  const personExist = await PersonModel.findOne({
-    name: body.name.toLowerCase(),
-  });
+  try {
+    const personWithName = await PersonModel.findOne({ name: body.name });
 
-  if (personExist) {
-    status = 400;
-    return response.status(status).json({ error: 'name must be unique' });
+    if (personWithName) {
+      const personFormatted = await personWithName.toJSON();
+      return response.json({ ...personFormatted, existName: true });
+    }
+
+    const person = new PersonModel({
+      name: body.name.toLowerCase(),
+      number: body.number.trim(),
+    });
+
+    const personSaved = await person.save();
+
+    response.json(personSaved);
+  } catch (error) {
+    next(error);
   }
-
-  const person = new PersonModel({
-    name: body.name.toLowerCase(),
-    number: body.number.trim(),
-  });
-
-  const personSaved = await person.save();
-
-  response.json(personSaved);
 });
+
 
 app.put('/api/phonebook/persons/:id', async (request, response, next) => {
   const id = request.params.id;
@@ -225,15 +221,20 @@ const unknownEndpoint = (request, response) => {
 app.use(unknownEndpoint);
 
 const errorHandler = (error, request, response, next) => {
-  console.error(error.name);
+  console.error({ error });
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'wrong id format' });
   }
 
   if (error.name === 'ValidationError') {
-    response.status = 400
-    return response.json({error: error.message})
+    response.status = 400;
+    return response.json({ error: 'validation', message: error.message });
+  }
+
+  if (error.name === 'MongoServerError') {
+    response.status = 400;
+    return response.json({ error: 'duplicate key', message: error.message });
   }
 
   next(error);
@@ -242,6 +243,7 @@ const errorHandler = (error, request, response, next) => {
 app.use(errorHandler);
 
 mongodb.once('open', () => {
+  // eslint-disable-next-line no-undef
   const PORT = process.env.PORT;
   app.listen(PORT, async () => {
     console.log(`Server running in port http://localhost:${PORT}`);

@@ -2,8 +2,16 @@ const mongoose = require('mongoose');
 
 const personSchema = new mongoose.Schema(
   {
-    name: String,
-    number: String,
+    name: {
+      type: String,
+      unique: true,
+      minlength: [3, 'Name must have more thant 3 characters'],
+    },
+    number: {
+      type: String,
+      unique: true,
+      minlength: [8, 'Number must be at least length of 6, got {VALUE}'],
+    },
   },
   { timestamps: true }
 );

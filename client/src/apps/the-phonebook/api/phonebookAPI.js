@@ -18,7 +18,7 @@ const deleteOne = async (id) => {
 };
 
 const update = async (personChanged) => {
-  console.log(personChanged)
+  console.log(personChanged);
   const response = await axiosAPI.put(
     `${baseURL}/${personChanged.id}`,
     personChanged
@@ -26,5 +26,6 @@ const update = async (personChanged) => {
 
   return response.data;
 };
+const phonebookAPI = { create, getALl, deleteOne, update };
 
-export default { create, getALl, deleteOne, update };
+export default phonebookAPI;
