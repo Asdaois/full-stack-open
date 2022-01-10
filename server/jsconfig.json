@@ -3,11 +3,9 @@
     "module": "commonjs",
     "target": "es2020",
     "strictFunctionTypes": true,
-    "baseUrl": "."
   },
   "exclude": [
     "node_modules",
     "**/node_modules/*"
   ],
-  "include": ["."]
 }
