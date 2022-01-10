@@ -19,18 +19,18 @@ const errorHandler = (error, request, response, next) => {
   logger.error('Error: ', error._message || error.message)
   logger.error('---')
 
+  const status = 400
+
   if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'wrong id format' })
+    return response.status(status).send({ error: error.name, message: error.message })
   }
 
   if (error.name === 'ValidationError') {
-    response.status = 400
-    return response.json({ error: 'validation', message: error.message })
+    return response.status(status).json({ error: error.name, message: error.message })
   }
 
   if (error.name === 'MongoServerError') {
-    response.status = 400
-    return response.json({ error: 'duplicate key', message: error.message })
+    return response.status(status).json({ error: error.name, message: error.message })
   }
 
   next(error)

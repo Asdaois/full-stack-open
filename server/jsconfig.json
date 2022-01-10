@@ -1,4 +1,0 @@
-{
-  "compilerOptions": { "noEmit": true, "module": "CommonJS" },
-  "exclude": ["node_modules", "public"]
-}

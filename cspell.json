@@ -9,7 +9,9 @@
     "Arto",
     "latlng",
     "linebreak",
-    "predeploy"
+    "predeploy",
+    "releveler",
+    "tcaer"
   ],
   "ignoreWords": [],
   "import": []

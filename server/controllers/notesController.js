@@ -17,9 +17,7 @@ notesRouter.get('/:id', async (request, response, next) => {
       return response.json(note)
     }
 
-    response.status = 404
-    response.statusMessage = 'Note not found'
-    response.end()
+    response.status(404).end()
   } catch (error) {
     next(error)
   }
@@ -36,8 +34,7 @@ notesRouter.post('/', async (request, response, next) => {
 
     const noteSaved = await note.save()
 
-    response.status = 201
-    response.json(noteSaved)
+    response.status(201).json(noteSaved)
   } catch (error) {
     next(error)
   }
@@ -55,6 +52,7 @@ notesRouter.delete('/:id', async (request, response, next) => {
     response.statusMessage = `Note with id:${id} deleted`
     response.status(status).end()
   } catch (error) {
+    response.status = 400
     next(error)
   }
 })
