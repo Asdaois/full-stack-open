@@ -32,25 +32,23 @@ const generateID = (dataDB) => {
   return maxID + 1;
 };
 
-app.post('/api/notes', async (request, response) => {
+app.post('/api/notes', async (request, response, next) => {
   let status = 201;
   const body = request.body;
 
-  if (!body.content) {
-    status = 400;
-    return response.status(status).json({
-      error: 'content missing',
+  try {
+    const note = new NoteModel({
+      content: body.content,
+      important: body.important || false,
     });
+
+    const noteSaved = await note.save();
+
+    response.status = 201;
+    response.json(noteSaved);
+  } catch (error) {
+    next(error);
   }
-
-  const note = new NoteModel({
-    content: body.content,
-    important: body.important || false,
-  });
-
-  await note.save();
-
-  response.status(status).json(note);
 });
 
 app.get('/api/notes/:id', async (request, response, next) => {
@@ -208,7 +206,7 @@ app.delete('/api/phonebook/persons/:id', async (request, response, next) => {
 
 app.get('/api/phonebook/info', async (request, response, next) => {
   try {
-    const count = await PersonModel.find({}).count()
+    const count = await PersonModel.find({}).count();
 
     const info = {
       message: `Phonebook has info for ${count} people`,
@@ -216,7 +214,7 @@ app.get('/api/phonebook/info', async (request, response, next) => {
     };
     response.json(info);
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 
@@ -231,6 +229,11 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'wrong id format' });
+  }
+
+  if (error.name === 'ValidationError') {
+    response.status = 400
+    return response.json({error: error.message})
   }
 
   next(error);

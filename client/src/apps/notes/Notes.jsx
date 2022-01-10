@@ -26,13 +26,16 @@ const Notes = () => {
 
     const noteObject = {
       content: newNote,
-      date: new Date().toISOString(),
       important: Math.random() > 0.5,
     };
 
     (async () => {
       const noteCreated = await notesAPI.create(noteObject);
-      setNotes(notes.concat(noteCreated));
+
+      if (noteCreated.error === undefined) {
+        setNotes(notes.concat(noteCreated));
+      }
+
       setNewNote('');
     })();
   };
