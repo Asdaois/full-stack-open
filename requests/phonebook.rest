@@ -10,11 +10,11 @@ GET {{URI}}/info HTTP/1.1
 {{TYPE_JSON}}
 
 ### Get one
-GET {{URI}}/persons/5 HTTP/1.1
+GET {{URI}}/persons/61db7fd3c572011bef0dd62a HTTP/1.1
 {{TYPE_JSON}}
 
 ### Delete one
-DELETE {{URI}}/persons/4 HTTP/1.1
+DELETE {{URI}}/persons/61db7fd3c572011bef0dd62a HTTP/1.1
 {{TYPE_JSON}}
 
 ### Create one
@@ -22,7 +22,7 @@ POST {{URI}}/persons HTTP/1.1
 {{TYPE_JSON}}
 
 {
-  "name": "Jose Guevara",
+  "name": "Jose Martinez",
   "number": "414005024"
 }
 
