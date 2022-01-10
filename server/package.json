@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "format": "npx standard --fix",
     "debug": "node --inspect index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -28,5 +29,10 @@
     "eslint-plugin-promise": "^5.2.0",
     "nodemon": "^2.0.15",
     "standard": "^16.0.4"
+  },
+  "standard": {
+    "ignore": [
+      "/build"
+    ]
   }
 }

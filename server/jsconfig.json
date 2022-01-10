@@ -1,11 +1,4 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2020",
-    "strictFunctionTypes": true,
-  },
-  "exclude": [
-    "node_modules",
-    "**/node_modules/*"
-  ],
+  "compilerOptions": { "noEmit": true, "module": "CommonJS" },
+  "exclude": ["node_modules", "public"]
 }

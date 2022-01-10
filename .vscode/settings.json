@@ -12,5 +12,6 @@
     "axios",
     "notesApi",
     "phonebook"
-  ]
+  ],
+  "typescript.validate.enable": false
 }

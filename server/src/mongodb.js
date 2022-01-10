@@ -1,13 +1,15 @@
+const config = require('../utils/config')
+const logger = require('../utils/logger')
 const mongoose = require('mongoose')
 
-mongoose.connect(process.env.MONGODB_URI)
+const init = () => {
+  try {
+    mongoose.connect(config.MONGODB_URI)
 
-const db = mongoose.connection
+    logger.info('Connected successfully to database')
+  } catch (e) {
+    logger.error('connection error: ', e.message)
+  }
+}
 
-db.on('error', console.error.bind(console, 'connection error: '))
-
-db.on('open', () => {
-  console.log('Connected successfully to database')
-})
-
-module.exports = db
+module.exports = { init }
