@@ -38,25 +38,31 @@ const ThePhonebook = () => {
 
   /**
    * @param {React.FormEvent<HTMLFormElement>} e */
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (persons.some((person) => person.name.toLowerCase() === newPerson.name.toLowerCase())) {
-      updatePerson({...newPerson});
-      return;
-    }
+    try {
 
-    const personObject = {
-      ...newPerson,
-    };
+      const personObject = {
+        ...newPerson,
+      };
+      const personCreated = await phonebookAPI.create(personObject);
 
-    (async () => {
-      try {
-        const personCreated = await phonebookAPI.create(personObject);
-        setPersons([...persons, personCreated]);
-        setNewPerson({ ...PERSON_EMPTY });
-      } catch (error) {}
-    })();
+      if (personCreated.existName) {
+        updatePerson({ ...personCreated });
+        return;
+      }
+
+      setNewPerson({ ...PERSON_EMPTY });
+
+      if (personCreated.error) {
+        // TODO: Create a component for improve errors messages
+        alert(personCreated.message);
+        return;
+      }
+
+      setPersons([...persons, personCreated]);
+    } catch (error) {}
   };
 
   /**
@@ -74,8 +80,7 @@ const ThePhonebook = () => {
 
     if (confirmed) {
       try {
-        const response = await phonebookAPI.deleteOne(personToRemove.id);
-
+        await phonebookAPI.deleteOne(personToRemove.id);
         setPersons(persons.filter((person) => person.id !== personToRemove.id));
       } catch (error) {
         alert(error);
@@ -85,25 +90,30 @@ const ThePhonebook = () => {
 
   const updatePerson = async (person) => {
     const confirmed = window.confirm(
-      `${person.name} is already adde to phonebook, replace the old number with a new one?`
+      `${person.name} is already added to phonebook, replace the old number with a new one?`
     );
 
     if (confirmed) {
       try {
-        const location = persons.findIndex(p => p.name.toLowerCase() === person.name.toLowerCase())
+        const location = persons.findIndex(
+          (p) => p.name.toLowerCase() === person.name.toLowerCase()
+        );
         if (location === -1) throw Error('Person not founded');
-          
-        const newPersonData = {...persons[location], number: newPerson.number}
-        
+
+        const newPersonData = {
+          ...persons[location],
+          number: newPerson.number,
+        };
+
         const personChanged = await phonebookAPI.update(newPersonData);
 
         setPersons(
           persons.map((person) =>
-            personChanged.id !== person.id ? person : personChanged 
+            personChanged.id !== person.id ? person : personChanged
           )
         );
 
-        setNewPerson({...PERSON_EMPTY})
+        setNewPerson({ ...PERSON_EMPTY });
       } catch (error) {}
     }
   };
