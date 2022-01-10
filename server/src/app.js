@@ -1,6 +1,7 @@
 const cors = require('cors')
 const express = require('express')
 const morgan = require('morgan')
+const blogRouter = require('../controllers/blogsController')
 
 const notesRouter = require('../controllers/notesController')
 const personsRouter = require('../controllers/personsController')
@@ -20,6 +21,7 @@ app.use(middleware.requestLogger)
 
 app.use('/api/notes', notesRouter)
 app.use('/api/phonebook/persons', personsRouter)
+app.use('/api/blogs', blogRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)

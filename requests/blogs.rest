@@ -1,0 +1,24 @@
+@URI = http://localhost:3001/api/blogs
+@TYPE_JSON = Content-Type: application/json
+
+### Get all notes
+GET {{URI}} HTTP/1.1
+{{TYPE_JSON}}
+
+### Get one
+GET {{URI}}/:id HTTP/1.1
+{{TYPE_JSON}}
+
+### Delete one
+DELETE {{URI}}/:id HTTP/1.1
+{{TYPE_JSON}}
+
+### Create one
+POST {{URI}} HTTP/1.1
+{{TYPE_JSON}}
+
+{
+  "title": "Hola ",
+  "author": "Pablo",
+  "url": "http//:testURL"
+}
