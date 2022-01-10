@@ -8,7 +8,8 @@
   "words": [
     "Arto",
     "latlng",
-    "linebreak"
+    "linebreak",
+    "predeploy"
   ],
   "ignoreWords": [],
   "import": []
