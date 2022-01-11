@@ -1,9 +1,14 @@
 const NoteModel = require('../models/NoteModel')
+const UserModel = require('../models/UserModel')
 
 const notesRouter = require('express').Router()
 
 notesRouter.get('/', async (request, response) => {
-  const notes = await NoteModel.find({})
+  const notes = await NoteModel.find({}).populate('user', {
+    username: 1,
+    name: 1
+  })
+
   response.json(notes)
 })
 
@@ -27,12 +32,18 @@ notesRouter.post('/', async (request, response, next) => {
   const body = request.body
 
   try {
+    const user = await UserModel.findById(body.userId)
+
     const note = new NoteModel({
       content: body.content,
-      important: body.important || false
+      important: body.important || false,
+      user: user._id
     })
 
     const noteSaved = await note.save()
+
+    user.notes = user.notes.concat(noteSaved._id)
+    await user.save()
 
     response.status(201).json(noteSaved)
   } catch (error) {

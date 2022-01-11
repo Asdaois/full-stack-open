@@ -19,18 +19,24 @@ const errorHandler = (error, request, response, next) => {
   logger.error('Error: ', error._message || error.message)
   logger.error('---')
 
-  const status = 400
+  let status = 200
 
-  if (error.name === 'CastError') {
-    return response.status(status).send({ error: error.name, message: error.message })
-  }
-
-  if (error.name === 'ValidationError') {
-    return response.status(status).json({ error: error.name, message: error.message })
+  if (
+    error.name === 'CastError' ||
+    error.name === 'ValidationError' ||
+    error.name === 'TypeError'
+  ) {
+    status = 400
   }
 
   if (error.name === 'MongoServerError') {
-    return response.status(status).json({ error: error.name, message: error.message })
+    status = 500
+  }
+
+  if (status !== 200) {
+    return response
+      .status(status)
+      .send({ error: error.name, message: error.message })
   }
 
   next(error)

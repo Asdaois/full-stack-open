@@ -1,0 +1,11 @@
+@uri = http://localhost:3001/api/notes
+@type-json = Content-Type: application/json 
+
+###
+POST {{uri}} HTTP/1.1
+{{type-json}}
+
+{
+  "userId": "61dcd4097a06d2f39c0d888a",
+  "content": "There is not contentx2"
+}

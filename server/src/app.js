@@ -5,6 +5,7 @@ const blogRouter = require('../controllers/blogsController')
 
 const notesRouter = require('../controllers/notesController')
 const personsRouter = require('../controllers/personsController')
+const userRouter = require('../controllers/userControlles')
 const middleware = require('../utils/middleware')
 
 require('./mongodb').init()
@@ -22,6 +23,7 @@ app.use(middleware.requestLogger)
 app.use('/api/notes', notesRouter)
 app.use('/api/phonebook/persons', personsRouter)
 app.use('/api/blogs', blogRouter)
+app.use('/api/users', userRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)

@@ -1,0 +1,12 @@
+@uri = http://localhost:3001/api/users
+@type-json = Content-Type: application/json 
+
+###
+POST {{uri}} HTTP/1.1
+{{type-json}}
+
+{
+  "username": "josethegod",
+  "name": "jose guevara",
+  "password": "aveztruz"
+}
