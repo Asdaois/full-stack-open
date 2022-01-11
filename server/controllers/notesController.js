@@ -1,5 +1,6 @@
 const NoteModel = require('../models/NoteModel')
 const UserModel = require('../models/UserModel')
+const tokens = require('../utils/tokens')
 
 const notesRouter = require('express').Router()
 
@@ -29,10 +30,15 @@ notesRouter.get('/:id', async (request, response, next) => {
 })
 
 notesRouter.post('/', async (request, response, next) => {
-  const body = request.body
-
   try {
-    const user = await UserModel.findById(body.userId)
+    const body = request.body
+
+    const decodeToken = tokens.decode(request)
+    if (!decodeToken.id) {
+      next(tokens.JWTNotProvidedOrInvalid)
+    }
+
+    const user = await UserModel.findById(decodeToken.id)
 
     const note = new NoteModel({
       content: body.content,
@@ -57,10 +63,9 @@ notesRouter.delete('/:id', async (request, response, next) => {
 
   try {
     const result = await NoteModel.findByIdAndRemove(id)
-    console.log(result)
 
     status = 204
-    response.statusMessage = `Note with id:${id} deleted`
+    response.statusMessage = `Note with id:${result._id} deleted`
     response.status(status).end()
   } catch (error) {
     response.status = 400

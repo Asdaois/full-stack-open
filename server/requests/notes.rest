@@ -1,8 +1,28 @@
 @uri = http://localhost:3001/api/notes
 @type-json = Content-Type: application/json 
+@authorization = Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Impvc2V0aGVnb2QiLCJpZCI6IjYxZGNkNDA5N2EwNmQyZjM5YzBkODg4YSIsImlhdCI6MTY0MTg2NzI5NywiZXhwIjoxNjQxODY3MzA3fQ.5sTHnjtDT210HoT_0y4kH0nHWPwf7NbUu_9dLScw8hY
 
-###
+### no authorization
 POST {{uri}} HTTP/1.1
+{{type-json}}
+
+{
+  "userId": "61dcd4097a06d2f39c0d888a",
+  "content": "There is not contentx2"
+}
+
+### no authorization
+POST {{uri}} HTTP/1.1
+{{type-json}}
+{{authorization}}
+
+{
+  "userId": "61dcd4097a06d2f39c0d888a",
+  "content": "I'm authorized to destroy this server"
+}
+
+### authorizaded
+POST http://localhost:3001/api/blogs  HTTP/1.1
 {{type-json}}
 
 {

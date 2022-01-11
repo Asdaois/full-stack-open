@@ -27,9 +27,9 @@ const errorHandler = (error, request, response, next) => {
     error.name === 'TypeError'
   ) {
     status = 400
-  }
-
-  if (error.name === 'MongoServerError') {
+  } else if (error.name === 'JsonWebTokenError' || error.name === 'TokenExpiredError') {
+    status = 401
+  } else if (error.name === 'MongoServerError') {
     status = 500
   }
 
