@@ -15,10 +15,12 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 
+/**
+ * @param {import('express').Request} request
+ */
 const errorHandler = (error, request, response, next) => {
   logger.error('Error: ', error._message || error.message)
   logger.error('---')
-
   let status = 200
 
   if (

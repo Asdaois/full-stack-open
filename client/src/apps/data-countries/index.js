@@ -1,3 +1,3 @@
-const { default: DataCountries } = require("./DataCountries");
+const { default: DataCountries } = require('./DataCountries')
 
-export default DataCountries;
+export default DataCountries

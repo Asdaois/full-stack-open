@@ -1,9 +1,10 @@
 @URI = http://localhost:3001/api/blogs
 @TYPE_JSON = Content-Type: application/json
-
-### Get all notes
+@authorization = Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Impvc2V0aGVnb2QiLCJpZCI6IjYxZGNkNDA5N2EwNmQyZjM5YzBkODg4YSIsImlhdCI6MTY0MjAwMjcwNiwiZXhwIjoxNjQyMDA2MzA2fQ.SwV7HB9dYfSGHbrGHLWVTz4kA_bgzvmIkU-lV3rt1vo
+### Get all blogs
 GET {{URI}} HTTP/1.1
 {{TYPE_JSON}}
+{{authorization}}
 
 ### Get one
 GET {{URI}}/:id HTTP/1.1
@@ -16,9 +17,8 @@ DELETE {{URI}}/:id HTTP/1.1
 ### Create one
 POST {{URI}} HTTP/1.1
 {{TYPE_JSON}}
+{{authorization}}
 
 {
-  "title": "Hola ",
-  "author": "Pablo",
-  "url": "http//:testURL"
+  "title": "Cova me hizo instalar postman"
 }

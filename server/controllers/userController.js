@@ -10,7 +10,6 @@ userRouter.get('/', async (request, response, next) => {
       content: 1,
       createdAt: 1
     })
-
     response.json(users)
   } catch (e) {
     next(e)

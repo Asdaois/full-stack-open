@@ -1,3 +1,3 @@
-import WebDevCurriculum from './WebDevCurriculum';
+import WebDevCurriculum from './WebDevCurriculum'
 
-export default WebDevCurriculum;
+export default WebDevCurriculum

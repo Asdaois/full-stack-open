@@ -1,18 +1,16 @@
-import React from 'react';
+import React from 'react'
 
-import degreesToCardinal from '../lib/degreesToCardinal';
+import degreesToCardinal from '../lib/degreesToCardinal'
 
-function Weather({ weather, capital }) {
+function Weather ({ weather, capital }) {
+  if (weather === null) { return <div className=''>Loading weather...</div> }
 
-  if (weather === null) 
-    return <div className="">Loading weather...</div>
-  
-  const { main: {temp}, wind: {deg, speed}, weather: [{description, icon, main}] } = weather;
-  
-  const cardinalDirection = degreesToCardinal(deg);
+  const { main: { temp }, wind: { deg, speed }, weather: [{ description, icon, main }] } = weather
+
+  const cardinalDirection = degreesToCardinal(deg)
 
   return (
-    <div className="">
+    <div className=''>
       <h3>Weather in {capital}</h3>
       <p>
         <strong>temperature:</strong> {temp} Celcius
@@ -25,10 +23,10 @@ function Weather({ weather, capital }) {
       />
       <p>
         <strong>wind:</strong> {speed} m/s direction {cardinalDirection}-
-        {deg} degrees 
+        {deg} degrees
       </p>
     </div>
-  );
+  )
 }
 
-export default Weather;
+export default Weather

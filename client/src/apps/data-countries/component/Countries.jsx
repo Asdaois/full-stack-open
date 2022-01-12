@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 
-import Country from './Country';
+import Country from './Country'
 
 const Countries = ({ limit, countries, showCountry }) => {
-  if (countries.length === 0) return <p>Not matches founded</p>;
+  if (countries.length === 0) return <p>Not matches founded</p>
 
-  if (countries.length === 1) return <Country country={countries[0]} />;
+  if (countries.length === 1) return <Country country={countries[0]} />
 
-  if (countries.length <= limit)
+  if (countries.length <= limit) {
     return (
       <ul>
         {countries.map((country, i) => (
@@ -17,9 +17,10 @@ const Countries = ({ limit, countries, showCountry }) => {
           </li>
         ))}
       </ul>
-    );
+    )
+  }
 
-  return <p>Too many matches, specify another filter</p>;
-};
+  return <p>Too many matches, specify another filter</p>
+}
 
-export default Countries;
+export default Countries

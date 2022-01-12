@@ -7,6 +7,8 @@ const loginRouter = require('express').Router()
 loginRouter.post('/', async (request, response, next) => {
   try {
     const body = request.body
+    const expiration = Number(request.body.expiration)
+    console.log(expiration)
     const user = await UserModel.findOne({ username: body.username })
 
     const passwordCorrect =
@@ -26,7 +28,7 @@ loginRouter.post('/', async (request, response, next) => {
     }
 
     const token = jwt.sign(userForToken, process.env.SECRET, {
-      expiresIn: 60 * 60
+      expiresIn: expiration * 60
     })
 
     response.status(200).send({ username: user.username, token })

@@ -1,3 +1,3 @@
-const { default: ThePhonebook } = require("./ThePhonebook");
+const { default: ThePhonebook } = require('./ThePhonebook')
 
-export default ThePhonebook;
+export default ThePhonebook

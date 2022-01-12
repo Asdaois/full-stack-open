@@ -1,8 +1,6 @@
-import React from 'react';
+import React from 'react'
 
 const Persons = ({ persons, handleDelete }) => {
-  
-
   return (
     <ul>
       {persons.map((person) => (
@@ -12,7 +10,7 @@ const Persons = ({ persons, handleDelete }) => {
         </li>
       ))}
     </ul>
-  );
-};
+  )
+}
 
-export default Persons;
+export default Persons

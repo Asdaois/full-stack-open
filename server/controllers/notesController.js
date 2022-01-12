@@ -1,22 +1,24 @@
 const NoteModel = require('../models/NoteModel')
 const UserModel = require('../models/UserModel')
-const tokens = require('../utils/tokens')
 
 const notesRouter = require('express').Router()
 
-notesRouter.get('/', async (request, response) => {
-  const notes = await NoteModel.find({}).populate('user', {
-    username: 1,
-    name: 1
-  })
+notesRouter.get('/', async (request, response, next) => {
+  try {
+    const notes = await NoteModel.find({}).populate('user', {
+      username: 1,
+      name: 1
+    })
 
-  response.json(notes)
+    response.json(notes)
+  } catch (e) {
+    next(e)
+  }
 })
 
 notesRouter.get('/:id', async (request, response, next) => {
-  const id = request.params.id
-
   try {
+    const id = request.params.id
     const note = await NoteModel.findById(id)
 
     if (note) {
@@ -33,12 +35,7 @@ notesRouter.post('/', async (request, response, next) => {
   try {
     const body = request.body
 
-    const decodeToken = tokens.decode(request)
-    if (!decodeToken.id) {
-      next(tokens.JWTNotProvidedOrInvalid)
-    }
-
-    const user = await UserModel.findById(decodeToken.id)
+    const user = await UserModel.findById(request.session.user.id)
 
     const note = new NoteModel({
       content: body.content,
