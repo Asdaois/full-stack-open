@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import axiosAPI from 'api/axiosAPI'
+import axiosAPI from 'services/axiosAPI'
 
 import Countries from './component/Countries'
 

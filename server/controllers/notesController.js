@@ -60,7 +60,6 @@ notesRouter.delete('/:id', async (request, response, next) => {
 
   try {
     const result = await NoteModel.findByIdAndRemove(id)
-
     status = 204
     response.statusMessage = `Note with id:${result._id} deleted`
     response.status(status).end()

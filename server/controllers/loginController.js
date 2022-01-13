@@ -7,7 +7,7 @@ const loginRouter = require('express').Router()
 loginRouter.post('/', async (request, response, next) => {
   try {
     const body = request.body
-    const expiration = Number(request.body.expiration)
+    const expiration = Number(request.body.expiration) || 60
 
     const user = await UserModel.findOne({ username: body.username })
 

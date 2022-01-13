@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import axiosAPI from 'api/axiosAPI'
+import axiosAPI from 'services/axiosAPI'
 
 import Weather from './Weather'
 
@@ -29,7 +29,6 @@ const Country = ({ country }) => {
       setWeather(response.data)
     }
     getWeather()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

@@ -1,4 +1,4 @@
-import axiosAPI from 'api/axiosAPI'
+import axiosAPI from 'services/axiosAPI'
 
 const baseURL = '/notes'
 
