@@ -2,6 +2,7 @@ const { Router } = require('express')
 const BlogModel = require('../models/BlogModel')
 const UserModel = require('../models/UserModel')
 const logger = require('../utils/logger')
+const Tokens = require('../utils/tokens')
 
 const blogRouter = Router()
 
@@ -22,7 +23,7 @@ blogRouter.get('/:id', async (request, response, next) => {
   try {
     const id = request.params.id
     const blog = await BlogModel.findById(id)
-    logger.info(request.auth)
+
     if (blog) {
       return response.json(blog)
     }
@@ -35,13 +36,14 @@ blogRouter.get('/:id', async (request, response, next) => {
 
 blogRouter.post('/', async (request, response, next) => {
   try {
-    const user = await UserModel.findById(request.session.user.id)
+    const userToken = Tokens.decode(request)
 
+    const user = await UserModel.findById(userToken.id)
     const blog = new BlogModel({ ...request.body, author: user._id })
 
     const blogSaved = await blog.save()
 
-    user.blogs = user.blogs.concat(blogSaved._id)
+    user.blogs.push(blogSaved._id)
     await user.save()
 
     response.status(201).json(blogSaved)
@@ -54,9 +56,33 @@ blogRouter.delete('/:id', async (request, response, next) => {
   try {
     const id = request.params.id
 
-    const blogDeleted = await BlogModel.findByIdAndRemove(id)
+    const blog = await BlogModel.findById(id)
 
-    response.statusMessage = `blog with id: ${blogDeleted._id} deleted`
+    if (!blog) {
+      return next({
+        error: 'BlogInvalidOrDelted',
+        message: 'Blog id is invalid or is deleted',
+        status: 404
+      })
+    }
+
+    if (blog.author.toString() !== request.session.user.id) {
+      return next({
+        error: 'UserNotOwnerBlog',
+        message: 'The user is no the owner of this blog',
+        status: 400
+      })
+    }
+
+    await blog.remove()
+
+    const user = await UserModel.findById(blog.user)
+    await user.blogs.pull(blog._id)
+    await user.save()
+
+    console.log(blog)
+
+    response.statusMessage = `blog with id: ${blog._id} deleted`
     response.status(204).end()
   } catch (error) {
     next(error)

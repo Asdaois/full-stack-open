@@ -15,6 +15,7 @@ const checkAuthentication = async (request, response, next) => {
     }
 
     request.session.user = decode
+
     next()
   } catch (error) {
     next(error)

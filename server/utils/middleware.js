@@ -21,7 +21,8 @@ const unknownEndpoint = (request, response) => {
 const errorHandler = (error, request, response, next) => {
   logger.error('Error: ', error._message || error.message)
   logger.error('---')
-  let status = 200
+
+  let status = error.status || 200
 
   if (
     error.name === 'CastError' ||

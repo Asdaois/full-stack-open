@@ -23,7 +23,7 @@ app.use(
   session({
     secret: config.SECRET,
     saveUninitialized: false,
-    resave: false,
+    resave: true,
     userToken: null
   })
 )
@@ -35,15 +35,19 @@ app.use(middleware.requestLogger)
 app.use('/api/login', loginRouter)
 
 app.get('/api', (request, response, next) => {
-  response.json({
-    message: 'Hey there this application is in development',
-    userToken: request.session.userToken
-  })
+  const about = {
+    message: 'Hey there!!!, this application is in development',
+    important: 'Is blocked with encrytation'
+  }
+
+  response.send(`
+  <div>
+    <h1>${about.message}</h1>
+    <strong>${about.important}</strong>
+  </div>`)
 })
 
 app.use(checkAuthentication)
-
-
 
 app.use('/api/notes', notesRouter)
 app.use('/api/phonebook/persons', personsRouter)

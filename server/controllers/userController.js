@@ -6,10 +6,18 @@ const userRouter = Router()
 
 userRouter.get('/', async (request, response, next) => {
   try {
-    const users = await UserModel.find({}).populate('notes', {
-      content: 1,
-      createdAt: 1
-    })
+    const users = await UserModel.find({})
+      .populate('notes', {
+        content: 1,
+        createdAt: 1
+      })
+      .populate('blogs', {
+        title: 1,
+        url: 1,
+        createdAt: 1,
+        likes: 1
+      })
+
     response.json(users)
   } catch (e) {
     next(e)
@@ -17,17 +25,39 @@ userRouter.get('/', async (request, response, next) => {
 })
 
 userRouter.post('/', async (request, response, next) => {
-  const body = request.body
-
   try {
+    const body = request.body
+
+    const potentialUser = {
+      name: body.name,
+      username: body.username.toLowerCase()
+    }
+
+    if (body.password === undefined) {
+      return next({
+        error: 'BadPassword',
+        message: 'Password not sent',
+        status: 400
+      })
+    } else if (body.password.length < 4) {
+      return next({
+        error: 'BadPassword',
+        message: 'password is too short',
+        status: 400
+      })
+    }
+
     // Exist user with username
     const userWithUsername = await UserModel.findOne({
-      username: body.username
+      username: potentialUser.username
     })
 
-    console.log(userWithUsername)
-    if (userWithUsername) {
-      return response.status(400).json({ error: '`username` to be unique' })
+    if (userWithUsername !== null) {
+      return next({
+        error: '`username` to be unique',
+        message: 'username exist in database',
+        status: 400
+      })
     }
 
     const saltRounds = 10
