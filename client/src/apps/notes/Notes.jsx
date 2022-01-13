@@ -21,23 +21,21 @@ const Notes = () => {
    *
    * @param {React.FormEvent<HTMLFormElement>} e
    */
-  const addNote = (e) => {
+  const addNote = async (e) => {
     e.preventDefault()
 
     const noteObject = {
       content: newNote,
       important: Math.random() > 0.5
-    };
+    }
 
-    (async () => {
-      const noteCreated = await notesAPI.create(noteObject)
+    const noteCreated = await notesAPI.create(noteObject)
 
-      if (noteCreated.error === undefined) {
-        setNotes(notes.concat(noteCreated))
-      }
+    if (noteCreated.error === undefined) {
+      setNotes(notes.concat(noteCreated))
+    }
 
-      setNewNote('')
-    })()
+    setNewNote('')
   }
 
   /**

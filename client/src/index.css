@@ -14,31 +14,31 @@
     @apply text-lg;
   }
   input {
-    @apply bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500;
+    @apply w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500;
   }
 }
 
 @layer components {
   .btn {
-    @apply font-bold py-2 px-4 rounded shadow;
+    @apply px-4 py-2 font-bold rounded shadow;
   }
   .btn-blue {
-    @apply bg-blue-500 text-white hover:bg-blue-700;
+    @apply text-white bg-blue-500 hover:bg-blue-700;
   }
   .btn-red {
-    @apply bg-red-500 text-white hover:bg-red-700;
+    @apply text-white bg-red-500 hover:bg-red-700;
   }
   
   .btn-green {
-    @apply bg-green-500 text-white hover:bg-green-700;
+    @apply text-white bg-green-500 hover:bg-green-700;
   }
   
   .btn-purple {
-    @apply bg-purple-500 text-white hover:bg-purple-700;
+    @apply text-white bg-purple-500 hover:bg-purple-700;
   }
   
   .btn-gray {
-    @apply bg-gray-500 text-white hover:bg-gray-700;
+    @apply text-white bg-gray-500 hover:bg-gray-700;
   }
   
 }

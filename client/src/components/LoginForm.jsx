@@ -18,7 +18,7 @@ const LoginForm = ({ credentials, handleLogin, handleCredentials }) => {
         value={credentials.password}
         onChange={handleCredentials}
       />
-      <button type='submit' className='btn btn-green'>
+      <button type='submit' className='btn btn-blue'>
         LOGIN
       </button>
     </form>

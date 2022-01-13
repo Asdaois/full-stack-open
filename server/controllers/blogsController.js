@@ -36,9 +36,9 @@ blogRouter.get('/:id', async (request, response, next) => {
 
 blogRouter.post('/', async (request, response, next) => {
   try {
-    const userToken = Tokens.decode(request)
+    // const userToken = Tokens.decode(request)
 
-    const user = await UserModel.findById(userToken.id)
+    const user = await UserModel.findById(request.session.user.id)
     const blog = new BlogModel({ ...request.body, author: user._id })
 
     const blogSaved = await blog.save()
@@ -46,6 +46,7 @@ blogRouter.post('/', async (request, response, next) => {
     user.blogs.push(blogSaved._id)
     await user.save()
 
+    await blogSaved.populate('author', { username: 1, name: 1 })
     response.status(201).json(blogSaved)
   } catch (error) {
     next(error)

@@ -5,7 +5,8 @@ import loginService from 'services/loginService'
 import BlogsApp from 'apps/blogs/BlogApp'
 
 const App = () => {
-  const [credentials, setCredentials] = useState({ username: '', password: '' })
+  const DEFAULT_CREDENTIALS = { username: '', password: '' }
+  const [credentials, setCredentials] = useState({ ...DEFAULT_CREDENTIALS })
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -31,29 +32,37 @@ const App = () => {
       window.localStorage.setItem('token', user.token)
 
       setUser(user.username)
+      setCredentials({ ...DEFAULT_CREDENTIALS })
     } catch (error) {
       console.error('Some error happen while login')
     }
   }
 
-  const loginForm = (
-    <LoginForm
-      credentials={credentials}
-      handleLogin={handleLogin}
-      handleCredentials={handleCredentials}
-    />
-  )
+  const handleLogout = async (e) => {
+    e.preventDefault()
 
-  const apps = (
-    <div className=''>
-      <div className=''>{user} logged in</div>
-      <BlogsApp />
-    </div>
-  )
+    setUser(null)
+    window.localStorage.clear()
+  }
+
+  if (user === null) {
+    return (
+      <div className='p-4 box-border'>
+        <LoginForm
+          credentials={credentials}
+          handleLogin={handleLogin}
+          handleCredentials={handleCredentials}
+        />
+      </div>
+    )
+  }
 
   return (
     <div className='p-4 box-border'>
-      {user === null ? loginForm : apps}
+      <div className=''>{user} logged in
+        <button onClick={handleLogout} className='pt-4 text-xl btn btn-red'>logout</button>
+      </div>
+      <BlogsApp />
     </div>
   )
 }
