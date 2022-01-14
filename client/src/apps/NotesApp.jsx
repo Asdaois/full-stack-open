@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import notesService from 'services/notesService'
 import Footer from 'components/Footer'
@@ -6,9 +6,10 @@ import Note from 'components/Note'
 import NoteForm from 'components/NoteForm'
 import Togglable from 'components/Togglable'
 
-const Notes = () => {
+const NotesApp = () => {
   const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
+  const noteFormRef = useRef()
 
   useEffect(() => {
     const getNotes = async () => {
@@ -28,11 +29,12 @@ const Notes = () => {
     } catch (error) {
       console.error(error)
     }
+
+    noteFormRef.current.toggleVisibility()
   }
 
-  const toggleImportanceOf = async (location) => {
+  const toggleImportanceOf = async (note) => {
     try {
-      const note = notes[location]
       const changedNote = { ...note, important: !note.important }
 
       const noteModified = await notesService.update(changedNote.id, changedNote)
@@ -51,7 +53,7 @@ const Notes = () => {
       <button className={`btn ${showAll ? 'btn-purple' : 'btn-gray'}`} onClick={() => setShowAll(!showAll)}>
         Show {showAll ? 'important' : 'all'}
       </button>
-      <Togglable buttonLabel='add a new note'>
+      <Togglable buttonLabel='add a new note' ref={noteFormRef}>
         <NoteForm createNote={createNote} />
       </Togglable>
       <ul>
@@ -59,7 +61,7 @@ const Notes = () => {
           <Note
             key={note.id}
             note={note}
-            toggleImportance={() => toggleImportanceOf(i)}
+            toggleImportance={() => toggleImportanceOf(note)}
           />
         ))}
       </ul>
@@ -69,4 +71,4 @@ const Notes = () => {
   )
 }
 
-export default Notes
+export default NotesApp

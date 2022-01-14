@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import blogsService from 'services/blogsService'
 import Blog from 'components/Blog'
+import Togglable from 'components/Togglable'
+import BlogForm from 'components/BlogForm'
 
 const BlogsApp = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState({})
+  const blogFormRef = useRef()
 
   useEffect(() => {
     const getAll = async () => {
@@ -15,40 +17,25 @@ const BlogsApp = () => {
     getAll()
   }, [])
 
-  const handleChange = ({ target }) => {
-    setNewBlog({ ...newBlog, [target.name]: target.value })
-  }
-  /**
-   *  @param {React.FormEvent<HTMLFormElement>} e
-   */
-  const handleSubmit = async (e) => {
+  const createBlog = async (newBlog) => {
     try {
-      e.preventDefault()
-
       const createdBlog = await blogsService.create(newBlog)
 
       setBlogs([...blogs, createdBlog])
-      console.log(createdBlog)
     } catch (error) {
       console.error(error)
     }
+
+    blogFormRef.current.toggleVisibility()
   }
 
   return (
     <div className=''>
       <h1>Blog app</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor='title' className='flex items-center gap-2'>
-          <span className='w-8'>title </span>
-          <input type='text' name='title' value={newBlog?.title} onChange={handleChange} />
-        </label>
-        <label htmlFor='url' className='flex items-center gap-2'>
-          <span className='w-8'>url</span>
-          <input type='text' name='url' value={newBlog?.url} onChange={handleChange} />
-        </label>
-        <button type='submit' className='btn btn-green'>create</button>
-      </form>
-      <div className=''>
+      <Togglable buttonLabel='create a form' ref={blogFormRef}>
+        <BlogForm createBlog={createBlog} />
+      </Togglable>
+      <div className='border-collapse border'>
         {blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
       </div>
     </div>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import LoginForm from 'components/LoginForm'
 import loginService from 'services/loginService'
 import BlogsApp from 'apps/BlogApp'
-import Togglable from 'components/Togglabel'
+import Togglable from 'components/Togglable'
 import NotesApp from 'apps/NotesApp'
 
 const App = () => {
@@ -18,6 +18,7 @@ const App = () => {
       setUser(userLogged)
     }
   }, [])
+
   const handleCredentials = ({ target }) => {
     setCredentials({ ...credentials, [target.name]: target.value })
   }

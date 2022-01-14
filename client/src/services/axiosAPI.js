@@ -12,7 +12,6 @@ axiosAPI.defaults.headers.post['Content-Type'] = 'application/json'
 axiosAPI.interceptors.request.use(request => {
   const token = window.localStorage.getItem('token')
   request.headers.Authorization = `Bearer ${token}`
-
   return request
 })
 

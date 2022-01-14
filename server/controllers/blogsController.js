@@ -101,6 +101,9 @@ blogRouter.put('/:id', async (request, response, next) => {
       url: body.url || ''
     }
 
+    const bll = new BlogModel(blog)
+    logger.info(bll)
+
     const updatedBlog = await BlogModel.findByIdAndUpdate(id, blog, {
       new: true
     })

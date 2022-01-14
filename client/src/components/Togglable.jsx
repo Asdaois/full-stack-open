@@ -1,12 +1,20 @@
-import React, { useState } from 'react'
+import React, { useImperativeHandle, useState } from 'react'
 
-const Togglable = ({ children, buttonLabel }) => {
+const Togglable = ({ children, buttonLabel, labelVisible, labelHide }, ref) => {
   const [display, setDisplay] = useState(false)
+
+  const toggleVisibility = () => {
+    setDisplay(!display)
+  }
+
+  useImperativeHandle(ref, () => ({
+    toggleVisibility
+  }))
 
   if (!display) {
     return (
-      <button onClick={() => setDisplay(true)} className='btn btn-green'>
-        {buttonLabel}
+      <button onClick={toggleVisibility} className='btn btn-green'>
+        {buttonLabel || labelHide}
       </button>
     )
   }
@@ -14,9 +22,9 @@ const Togglable = ({ children, buttonLabel }) => {
   return (
     <div className=''>
       {children}
-      <button onClick={() => setDisplay(false)} className='btn btn-red'>cancel</button>
+      <button onClick={toggleVisibility} className='btn btn-red'>{labelVisible || 'cancel'}</button>
     </div>
   )
 }
 
-export default Togglable
+export default React.forwardRef(Togglable)

@@ -15,11 +15,7 @@ const NoteForm = ({ createNote }) => {
       important: Math.random() > 0.5
     }
 
-    const noteCreated = await notesService.create(noteObject)
-
-    if (noteCreated.error === undefined) {
-      setNotes(notes.concat(noteCreated))
-    }
+    createNote(noteObject)
 
     setNewNote('')
   }
@@ -28,19 +24,19 @@ const NoteForm = ({ createNote }) => {
    *
    * @param {React.ChangeEvent<HTMLInputElement>} e
    */
-  const handleNoteChange = (e) => {
+  const handelNewNoteChange = (e) => {
     setNewNote(e.currentTarget.value)
   }
 
   return (
     <div className=''>
       <h2>Create a new note</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={addNote}>
         <input
           type='text'
           placeholder='A new note...'
-          value={value}
-          onChange={handleChange}
+          value={newNote}
+          onChange={handelNewNoteChange}
         />
         <button type='submit' className='btn btn-green'>Save</button>
       </form>
