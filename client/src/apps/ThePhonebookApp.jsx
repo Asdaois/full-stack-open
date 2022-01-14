@@ -56,7 +56,7 @@ const ThePhonebook = () => {
 
       if (personCreated.error) {
         // TODO: Create a component for improve errors messages
-        alert(personCreated.message)
+        window.alert(personCreated.message)
         return
       }
 
@@ -82,7 +82,7 @@ const ThePhonebook = () => {
         await phonebookAPI.deleteOne(personToRemove.id)
         setPersons(persons.filter((person) => person.id !== personToRemove.id))
       } catch (error) {
-        alert(error)
+        window.alert(error)
       }
     }
   }

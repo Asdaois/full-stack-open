@@ -56,8 +56,7 @@ blogRouter.post('/', async (request, response, next) => {
 blogRouter.delete('/:id', async (request, response, next) => {
   try {
     const id = request.params.id
-
-    const blog = await BlogModel.findById(id)
+    const blog = await BlogModel.findById(id).exec()
 
     if (!blog) {
       return next({
@@ -77,11 +76,9 @@ blogRouter.delete('/:id', async (request, response, next) => {
 
     await blog.remove()
 
-    const user = await UserModel.findById(blog.user)
-    await user.blogs.pull(blog._id)
+    const user = await UserModel.findById(blog.author.toString())
+    user.blogs.pull(blog._id)
     await user.save()
-
-    console.log(blog)
 
     response.statusMessage = `blog with id: ${blog._id} deleted`
     response.status(204).end()
@@ -101,14 +98,15 @@ blogRouter.put('/:id', async (request, response, next) => {
       url: body.url || ''
     }
 
-    const bll = new BlogModel(blog)
-    logger.info(bll)
-
     const updatedBlog = await BlogModel.findByIdAndUpdate(id, blog, {
       new: true
     })
 
     if (updatedBlog) {
+      await updatedBlog.populate('author', {
+        username: 1,
+        name: 1
+      })
       return response.json(updatedBlog)
     }
 
