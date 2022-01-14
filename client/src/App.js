@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 import LoginForm from 'components/LoginForm'
 import loginService from 'services/loginService'
-import BlogsApp from 'apps/blogs/BlogApp'
+import BlogsApp from 'apps/BlogApp'
+import Togglable from 'components/Togglabel'
 
 const App = () => {
   const DEFAULT_CREDENTIALS = { username: '', password: '' }
@@ -30,7 +31,6 @@ const App = () => {
 
       window.localStorage.setItem('username', user.username)
       window.localStorage.setItem('token', user.token)
-
       setUser(user.username)
       setCredentials({ ...DEFAULT_CREDENTIALS })
     } catch (error) {
@@ -48,12 +48,15 @@ const App = () => {
   if (user === null) {
     return (
       <div className='p-4 box-border'>
-        <LoginForm
-          credentials={credentials}
-          handleLogin={handleLogin}
-          handleCredentials={handleCredentials}
-        />
+        <Togglable buttonLabel='login'>
+          <LoginForm
+            credentials={credentials}
+            handleLogin={handleLogin}
+            handleCredentials={handleCredentials}
+          />
+        </Togglable>
       </div>
+
     )
   }
 

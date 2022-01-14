@@ -68,15 +68,7 @@ const Notes = () => {
           Show {showAll ? 'important' : 'all'}
         </button>
       </div>
-      <form onSubmit={addNote}>
-        <input
-          type='text'
-          placeholder='A new note...'
-          value={newNote}
-          onChange={handleNoteChange}
-        />
-        <button type='submit' className='btn btn-green'>Save</button>
-      </form>
+      <Togglable />
       <ul>
         {notesToShow.map((note, i) => (
           <Note

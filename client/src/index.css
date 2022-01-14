@@ -20,7 +20,7 @@
 
 @layer components {
   .btn {
-    @apply px-4 py-2 font-bold rounded shadow;
+    @apply px-4 py-2 font-bold rounded shadow w-24 ;
   }
   .btn-blue {
     @apply text-white bg-blue-500 hover:bg-blue-700;

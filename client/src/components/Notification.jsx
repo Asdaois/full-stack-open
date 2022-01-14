@@ -12,7 +12,7 @@ const Notification = ({ message, duration }) => {
   if (controlMessage === null) return null
 
   return (
-    <div className='text-red-500 bg-gray-500 box-border text-xl border-4 border-red-500 border-solid rounded-md p-[10px] mb-[10px]'>
+    <div className='text-red-500 bg-gray-500 box-border text-xl border-4 border-red-500 border-solid rounded-md p-[10px] mb-[10px] '>
       {controlMessage}
     </div>
   )
