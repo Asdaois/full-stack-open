@@ -14,7 +14,7 @@ const Togglable = ({ children, buttonLabel }) => {
   return (
     <div className=''>
       {children}
-      <button onClick={() => setDisplay(false)} className='btn btn-red '>cancel</button>
+      <button onClick={() => setDisplay(false)} className='btn btn-red'>cancel</button>
     </div>
   )
 }

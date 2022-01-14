@@ -4,6 +4,7 @@ import LoginForm from 'components/LoginForm'
 import loginService from 'services/loginService'
 import BlogsApp from 'apps/BlogApp'
 import Togglable from 'components/Togglabel'
+import NotesApp from 'apps/NotesApp'
 
 const App = () => {
   const DEFAULT_CREDENTIALS = { username: '', password: '' }
@@ -66,6 +67,7 @@ const App = () => {
         <button onClick={handleLogout} className='pt-4 text-xl btn btn-red'>logout</button>
       </div>
       <BlogsApp />
+      <NotesApp />
     </div>
   )
 }

@@ -1,61 +1,46 @@
 import React, { useEffect, useState } from 'react'
 
-import notesAPI from './api/notesAPI'
-import Footer from './components/Footer'
-import Note from './components/Note'
+import notesService from 'services/notesService'
+import Footer from 'components/Footer'
+import Note from 'components/Note'
+import NoteForm from 'components/NoteForm'
+import Togglable from 'components/Togglable'
 
 const Notes = () => {
   const [notes, setNotes] = useState([])
-  const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
 
   useEffect(() => {
     const getNotes = async () => {
-      const notes = await notesAPI.getAll('/notes')
+      const notes = await notesService.getAll('/notes')
       setNotes(notes)
     }
     getNotes()
   }, [])
 
-  /**
-   *
-   * @param {React.FormEvent<HTMLFormElement>} e
-   */
-  const addNote = async (e) => {
-    e.preventDefault()
+  const createNote = async (newNote) => {
+    try {
+      const noteCreated = await notesService.create(newNote)
 
-    const noteObject = {
-      content: newNote,
-      important: Math.random() > 0.5
+      if (noteCreated.error === undefined) {
+        setNotes(notes.concat(noteCreated))
+      }
+    } catch (error) {
+      console.error(error)
     }
-
-    const noteCreated = await notesAPI.create(noteObject)
-
-    if (noteCreated.error === undefined) {
-      setNotes(notes.concat(noteCreated))
-    }
-
-    setNewNote('')
-  }
-
-  /**
-   *
-   * @param {React.ChangeEvent<HTMLInputElement>} e
-   */
-  const handleNoteChange = (e) => {
-    setNewNote(e.currentTarget.value)
   }
 
   const toggleImportanceOf = async (location) => {
-    const note = notes[location]
-    const changedNote = { ...note, important: !note.important }
-
     try {
-      const noteModified = await notesAPI.update(changedNote.id, changedNote)
+      const note = notes[location]
+      const changedNote = { ...note, important: !note.important }
+
+      const noteModified = await notesService.update(changedNote.id, changedNote)
       setNotes(
         notes.map((note) => (note.id !== noteModified.id ? note : noteModified))
       )
     } catch (error) {
+      console.error(error)
     }
   }
   const notesToShow = showAll ? notes : notes.filter((note) => note.important)
@@ -63,12 +48,12 @@ const Notes = () => {
   return (
     <div>
       <h1>Notes</h1>
-      <div className=''>
-        <button className={`btn ${showAll ? 'btn-purple' : 'btn-gray'}`} onClick={() => setShowAll(!showAll)}>
-          Show {showAll ? 'important' : 'all'}
-        </button>
-      </div>
-      <Togglable />
+      <button className={`btn ${showAll ? 'btn-purple' : 'btn-gray'}`} onClick={() => setShowAll(!showAll)}>
+        Show {showAll ? 'important' : 'all'}
+      </button>
+      <Togglable buttonLabel='add a new note'>
+        <NoteForm createNote={createNote} />
+      </Togglable>
       <ul>
         {notesToShow.map((note, i) => (
           <Note

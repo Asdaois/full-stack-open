@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import blogsService from 'services/blogsService'
-import Blog from './components/Blog'
+import Blog from 'components/Blog'
 
 const BlogsApp = () => {
   const [blogs, setBlogs] = useState([])
