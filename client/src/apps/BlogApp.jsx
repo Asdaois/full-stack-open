@@ -25,7 +25,7 @@ const BlogsApp = () => {
     sortBlogs()
   }, [sorted, blogs])
 
-  const createBlog = async (newBlog) => {
+  const createBlog = async newBlog => {
     try {
       const createdBlog = await blogsService.create(newBlog)
 
@@ -37,10 +37,12 @@ const BlogsApp = () => {
     blogFormRef.current.toggleVisibility()
   }
 
-  const updateBlog = async (newblog) => {
+  const updateBlog = async newblog => {
     try {
       const updatedBlog = await blogsService.update(newblog)
-      setBlogs(blogs.map(blog => (blog.id !== updatedBlog.id ? blog : updatedBlog)))
+      setBlogs(
+        blogs.map(blog => (blog.id !== updatedBlog.id ? blog : updatedBlog))
+      )
     } catch (error) {
       console.error(error)
     }
@@ -84,12 +86,14 @@ const BlogsApp = () => {
       </button>
 
       <div className='border-collapse border'>
-        {showBlogs.map((blog) => <Blog
-          key={blog.id}
-          blog={blog}
-          updateBlog={updateBlog}
-          handleDelete={() => deleteBlog(blog.id, blog.title)}
-                                 />)}
+        {showBlogs.map(blog => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            updateBlog={updateBlog}
+            handleDelete={() => deleteBlog(blog.id, blog.title)}
+          />
+        ))}
       </div>
     </div>
   )

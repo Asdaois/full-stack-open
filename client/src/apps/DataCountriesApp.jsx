@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import axiosAPI from 'services/axiosAPI'
 
-import Countries from './component/Countries'
+import Countries from 'components/Countries'
 
 const DataCountries = () => {
   const [countries, setCountries] = useState([])
@@ -19,18 +19,18 @@ const DataCountries = () => {
 
   useEffect(() => {
     const regex = new RegExp('' + filter, 'i')
-    const filteredCountries = countries.filter((country) =>
+    const filteredCountries = countries.filter(country =>
       regex.test(country.name.common)
     )
 
     setFilteredCountries(filteredCountries)
   }, [filter, countries])
 
-  const handleChangeFilter = (e) => {
+  const handleChangeFilter = e => {
     setFilter(e.target.value)
   }
 
-  const handleShowCountry = (index) => {
+  const handleShowCountry = index => {
     setFilteredCountries([filteredCountries[index]])
   }
 

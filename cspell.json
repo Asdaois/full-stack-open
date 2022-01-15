@@ -14,7 +14,8 @@
     "predeploy",
     "releveler",
     "resave",
-    "tcaer"
+    "tcaer",
+    "Togglable"
   ],
   "ignoreWords": [],
   "import": []
