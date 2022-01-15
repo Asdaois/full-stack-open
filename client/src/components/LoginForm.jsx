@@ -11,6 +11,7 @@ const LoginForm = ({ credentials, handleLogin, handleCredentials }) => {
           name='username'
           value={credentials.username}
           onChange={handleCredentials}
+          data-cy='input-login-username'
         />
 
         <label htmlFor='password'>password</label>
@@ -19,8 +20,9 @@ const LoginForm = ({ credentials, handleLogin, handleCredentials }) => {
           name='password'
           value={credentials.password}
           onChange={handleCredentials}
+          data-cy='input-login-password'
         />
-        <button type='submit' className='btn btn-blue'>
+        <button type='submit' className='btn btn-blue' data-cy='login-submit'>
           login
         </button>
       </form>

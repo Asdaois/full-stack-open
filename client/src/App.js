@@ -10,6 +10,7 @@ const App = () => {
   const DEFAULT_CREDENTIALS = { username: '', password: '' }
   const [credentials, setCredentials] = useState({ ...DEFAULT_CREDENTIALS })
   const [user, setUser] = useState(null)
+  const [loginErrorMessage, setLoginErrorMessage] = useState('')
 
   useEffect(() => {
     const userLogged = window.localStorage.getItem('username')
@@ -25,7 +26,6 @@ const App = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault()
-
     try {
       const user = await loginService.login({
         ...credentials
@@ -36,7 +36,7 @@ const App = () => {
       setUser(user.username)
       setCredentials({ ...DEFAULT_CREDENTIALS })
     } catch (error) {
-      console.error('Some error happen while login')
+      setLoginErrorMessage('some error happen while login')
     }
   }
 
@@ -56,6 +56,7 @@ const App = () => {
             handleLogin={handleLogin}
             handleCredentials={handleCredentials}
           />
+          <div className='' data-cy='login-error-message'>{loginErrorMessage}</div>
         </Togglable>
       </div>
 
@@ -65,7 +66,7 @@ const App = () => {
   return (
     <div className='p-4 box-border'>
       <div className=''>{user} logged in
-        <button onClick={handleLogout} className='pt-4 text-xl btn btn-red'>logout</button>
+        <button onClick={handleLogout} className='pt-4 text-xl btn btn-red' data-button='logout'>logout</button>
       </div>
       <BlogsApp />
       <NotesApp />

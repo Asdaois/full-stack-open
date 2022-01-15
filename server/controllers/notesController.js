@@ -1,5 +1,7 @@
 const NoteModel = require('../models/NoteModel')
 const UserModel = require('../models/UserModel')
+const logger = require('../utils/logger')
+const Tokens = require('../utils/tokens')
 
 const notesRouter = require('express').Router()
 
@@ -35,8 +37,9 @@ notesRouter.post('/', async (request, response, next) => {
   try {
     const body = request.body
 
-    const user = await UserModel.findById(request.session.user.id)
-
+    const userInfo = Tokens.decode(request)
+    const user = await UserModel.findById(userInfo.id)
+    logger.info(user)
     const note = new NoteModel({
       content: body.content,
       important: body.important || false,

@@ -13,5 +13,8 @@
     "notesApi",
     "phonebook"
   ],
-  "typescript.validate.enable": false
+  "typescript.validate.enable": false,
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "modificationsIfAvailable"
+
 }

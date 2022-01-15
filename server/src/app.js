@@ -1,6 +1,6 @@
 const cors = require('cors')
 const express = require('express')
-const morgan = require('morgan')
+
 const session = require('express-session')
 
 const blogRouter = require('../controllers/blogsController')
@@ -28,11 +28,14 @@ app.use(
   })
 )
 
-morgan.token('body', req => JSON.stringify(req.body))
-morgan.token('params', req => JSON.stringify(req.params))
 app.use(middleware.requestLogger)
 
 app.use('/api/login', loginRouter)
+
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('../controllers/testing/testController')
+  app.use('/api/testing', testingRouter)
+}
 
 app.get('/api', (request, response, next) => {
   const about = {

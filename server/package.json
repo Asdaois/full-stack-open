@@ -9,7 +9,8 @@
     "dev": "nodemon index.js",
     "format": "npx standard --fix",
     "debug": "node --inspect index.js",
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand -t "
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand -t ",
+    "start:test": "NODE_ENV=test nodemon index.js"
   },
   "keywords": [],
   "author": "",

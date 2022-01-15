@@ -38,8 +38,9 @@ const NoteForm = ({ createNote }) => {
           placeholder='A new note...'
           value={newNote}
           onChange={handelNewNoteChange}
+          data-cy='note-text'
         />
-        <button type='submit' className='btn btn-green'>Save</button>
+        <button type='submit' className='btn btn-green' data-cy='note-save'>Save</button>
       </form>
     </div>
   )

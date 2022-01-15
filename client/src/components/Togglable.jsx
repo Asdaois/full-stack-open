@@ -13,7 +13,7 @@ const Togglable = ({ children, buttonLabel, labelVisible, labelHide }, ref) => {
 
   if (!display) {
     return (
-      <button onClick={toggleVisibility} className='btn btn-green'>
+      <button onClick={toggleVisibility} className='btn btn-green' data-cy={'toggle-button' + '-' + buttonLabel}>
         {buttonLabel || labelHide}
       </button>
     )
