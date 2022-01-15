@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 const BlogForm = ({ createBlog }, ref) => {
-  const [newBlog, setNewBlog] = useState({})
+  const [newBlog, setNewBlog] = useState({ title: '', url: '' })
 
   const handleChange = ({ target }) => {
     setNewBlog({ ...newBlog, [target.name]: target.value })
@@ -15,7 +15,7 @@ const BlogForm = ({ createBlog }, ref) => {
 
     createBlog(newBlog)
 
-    setNewBlog({})
+    setNewBlog({ title: '', url: '' })
   }
 
   return (

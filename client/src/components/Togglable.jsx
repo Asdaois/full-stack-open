@@ -20,7 +20,7 @@ const Togglable = ({ children, buttonLabel, labelVisible, labelHide }, ref) => {
   }
 
   return (
-    <div className=''>
+    <div className='togglable-content'>
       {children}
       <button onClick={toggleVisibility} className='btn btn-red'>{labelVisible || 'cancel'}</button>
     </div>

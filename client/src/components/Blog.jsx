@@ -12,9 +12,9 @@ const Blog = ({ blog, updateBlog, handleDelete }) => {
 
   const showInfo = (
     <div className=''>
-      <p>{blog?.url}</p>
-      <p>{blog?.likes}</p>
-      <p className=''>{blog?.author.username}</p>
+      <p className='url'>{blog?.url}</p>
+      <p className='likes'>{blog?.likes}</p>
+      <p className='username'>{blog?.author?.username}</p>
       <button className='btn btn-red' onClick={handleDelete}>delete</button>
     </div>
   )
@@ -22,9 +22,9 @@ const Blog = ({ blog, updateBlog, handleDelete }) => {
   return (
     <div className='border border-gray-200 p-2'>
       <div className='flex items-center gap-2'>
-        <h3>{blog.title}</h3>
-        <button onClick={toggleDisplay} className='btn'>{display ? 'hide' : 'show'}</button>
-        <button onClick={handleLike} className='btn'>like</button>
+        <h3 className='blog-title'>{blog.title}</h3>
+        <button onClick={toggleDisplay} className='btn btn-toggle'>{display ? 'hide' : 'show'}</button>
+        <button onClick={handleLike} className='btn btn-like'>like</button>
       </div>
 
       {display && showInfo}
@@ -34,7 +34,7 @@ const Blog = ({ blog, updateBlog, handleDelete }) => {
 }
 
 Blog.propTypes = {
-  updatedBlog: PropTypes.func.isRequired,
+  updateBlog: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
   blog: PropTypes.object.isRequired
 }
