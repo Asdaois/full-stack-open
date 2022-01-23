@@ -20,7 +20,7 @@ const Blog = ({ blog, updateBlog, handleDelete }) => {
   )
 
   return (
-    <div className='border border-gray-200 p-2'>
+    <div className='border border-gray-200 p-2 '>
       <div className='flex items-center gap-2'>
         <h3 className='blog-title'>{blog.title}</h3>
         <button onClick={toggleDisplay} className='btn btn-toggle'>{display ? 'hide' : 'show'}</button>

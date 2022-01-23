@@ -8,7 +8,7 @@ const NoteInfo = ({ notes }) => {
 
   return (
     <div>
-      <Link to={'..'}>Go to notes</Link>
+      <Link to={'..'} className='cursor-pointer'>Go to notes</Link>
       <h2 className=''>{note?.content}</h2>
       <div className=''>{note?.user.username}</div>
       <div className=''>

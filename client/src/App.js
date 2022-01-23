@@ -18,7 +18,6 @@ const App = () => {
       setUser(userLogged)
       return
     }
-
     navigate('/login')
   }, [])
 
