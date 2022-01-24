@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
+    "composite": true,
     "module": "commonjs",
     "target": "es2020",
-    "strictFunctionTypes": true,
-    "baseUrl": "."
+    "jsx": "preserve",
+    "strictFunctionTypes": true
   },
   "exclude": [
     "node_modules",
     "**/node_modules/*"
-  ],
-  "include": ["."]
+  ]
 }

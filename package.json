@@ -8,10 +8,10 @@
     "dev": "concurrently npm:dev:* -c \"blue,green\"",
     "dev:client": "cd client && npm run start",
     "dev:server": "cd server && npm run dev",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf server/build && cd ./client && npm run build ",
     "predeploy": "npm run build:ui && git add . && git commit -m deploy",
-    "logs:prod": "heroku logs --tail"
+    "logs:prod": "heroku logs --tail",
+    "test": "jest --verbose"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
   "homepage": "https://github.com/Asdaois/full-stack-open#readme",
   "devDependencies": {
     "concurrently": "^7.0.0",
-    "eslint": "^8.6.0"
+    "eslint": "^8.6.0",
+    "jest": "^27.4.7"
   }
 }

@@ -1,0 +1,11 @@
+{
+  "tailwindCSS.enable": true,
+  "coc.source.syntax.enable": true,
+  "coc.source.ultisnips.enable":true,
+  "coc.source.ultisnips.shortcut": "US",
+  "coc.source.file.ignoreHidden": false,
+  "cSpell.words": [
+    "Togglable"
+  ]
+}
+

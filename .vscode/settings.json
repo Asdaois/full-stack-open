@@ -12,5 +12,12 @@
     "axios",
     "notesApi",
     "phonebook"
-  ]
+  ],
+  "typescript.validate.enable": false,
+  /*
+  "editor.defaultFormatter": "numso.prettier-standard-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "modificationsIfAvailable"
+  */
+
 }
